@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vivo 夏日超值季 — 暑期权益盛典</title>
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <style>
+        /* ===== QR Page ===== */
+        .qr-page {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(11,14,26,0.95);
+            backdrop-filter: blur(20px);
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            cursor: pointer;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s;
+        }
+        .qr-page.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .qr-page .qr-wrap {
+            background: #fff;
+            padding: 24px;
+            border-radius: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 12px;
+        }
+        .qr-page .qr-wrap img { display: block; }
+        .qr-page .hint {
+            color: rgba(255,255,255,0.5);
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+        .qr-toggle-btn {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 199;
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4285f4, #6a3de8);
+            border: none;
+            color: #fff;
+            font-size: 24px;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(66,133,244,0.3);
+            transition: transform 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .qr-toggle-btn:hover { transform: scale(1.1); }
+        @media print {
+            .qr-toggle-btn, .navbar { display: none; }
+        }
+
+        /* ===== Reset & Base ===== */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: -apple-system, "PingFang SC", "Helvetica Neue", sans-serif;
+            background: #0b0e1a;
+            color: #fff;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        a { text-decoration: none; color: inherit; }
+
+        /* ===== Animations ===== */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInScale {
+            from { opacity: 0; transform: scale(0.85); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-16px); }
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% center; }
+            100% { background-position: 200% center; }
+        }
+        @keyframes pulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(66, 133, 244, 0.5); }
+            50% { box-shadow: 0 0 0 20px rgba(66, 133, 244, 0); }
+        }
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-60px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(60px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes bgPan {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+        .animate-on-scroll {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .animate-on-scroll.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== Hero Section ===== */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 40px 24px;
+            background: linear-gradient(135deg, #0b0e1a 0%, #1a1f3a 30%, #0f2b5c 60%, #1a0a2e 100%);
+            background-size: 400% 400%;
+            animation: bgPan 20s ease infinite;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 20% 50%, rgba(66,133,244,0.12) 0%, transparent 60%),
+                        radial-gradient(ellipse at 80% 30%, rgba(138,43,226,0.10) 0%, transparent 50%),
+                        radial-gradient(ellipse at 50% 80%, rgba(255,107,53,0.08) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .hero .particle {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.06);
+            pointer-events: none;
+            animation: float 6s ease-in-out infinite;
+        }
+        .hero .particle:nth-child(1) { width: 4px; height: 4px; top: 12%; left: 8%; animation-delay: 0s; }
+        .hero .particle:nth-child(2) { width: 6px; height: 6px; top: 25%; right: 15%; animation-delay: 1s; }
+        .hero .particle:nth-child(3) { width: 3px; height: 3px; top: 60%; left: 20%; animation-delay: 2s; }
+        .hero .particle:nth-child(4) { width: 5px; height: 5px; bottom: 30%; right: 25%; animation-delay: 0.5s; }
+        .hero .particle:nth-child(5) { width: 8px; height: 8px; top: 40%; left: 75%; animation-delay: 1.5s; }
+        .hero .particle:nth-child(6) { width: 4px; height: 4px; bottom: 15%; left: 40%; animation-delay: 2.5s; }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 6px 20px;
+            border-radius: 100px;
+            background: linear-gradient(135deg, rgba(66,133,244,0.25), rgba(138,43,226,0.25));
+            border: 1px solid rgba(66,133,244,0.3);
+            font-size: 14px;
+            letter-spacing: 2px;
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 24px;
+            animation: fadeInUp 0.8s ease;
+        }
+        .hero h1 {
+            font-size: clamp(40px, 8vw, 88px);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 16px;
+            animation: fadeInUp 0.8s ease 0.15s both;
+        }
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, #4285f4, #8a2be2, #ff6b35);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero p {
+            font-size: clamp(16px, 2.2vw, 22px);
+            color: rgba(255,255,255,0.65);
+            max-width: 640px;
+            margin-bottom: 32px;
+            animation: fadeInUp 0.8s ease 0.3s both;
+        }
+        .hero-countdown {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            margin-bottom: 40px;
+            animation: fadeInUp 0.8s ease 0.45s both;
+        }
+        .hero-countdown .cd-item {
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 14px;
+            padding: 12px 20px;
+            min-width: 72px;
+            text-align: center;
+        }
+        .hero-countdown .cd-item .num {
+            font-size: 32px;
+            font-weight: 700;
+            display: block;
+            line-height: 1.2;
+        }
+        .hero-countdown .cd-item .label {
+            font-size: 12px;
+            color: rgba(255,255,255,0.5);
+        }
+        .hero-cta {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 40px;
+            border-radius: 60px;
+            background: linear-gradient(135deg, #4285f4, #6a3de8);
+            font-size: 18px;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+            animation: fadeInUp 0.8s ease 0.6s both, pulse 2.5s ease-in-out 1.5s infinite;
+        }
+        .hero-cta:hover { transform: translateY(-3px) scale(1.03); }
+
+        /* ===== Section Common ===== */
+        section { padding: 80px 24px; }
+        .section-title {
+            text-align: center;
+            font-size: clamp(28px, 4vw, 44px);
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .section-sub {
+            text-align: center;
+            color: rgba(255,255,255,0.55);
+            font-size: 16px;
+            margin-bottom: 48px;
+        }
+
+        /* ===== Products ===== */
+        .products-bg {
+            background: linear-gradient(180deg, #0b0e1a 0%, #111630 100%);
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 28px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .product-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 36px 28px 28px;
+            text-align: center;
+            transition: transform 0.4s, border-color 0.4s, box-shadow 0.4s;
+            backdrop-filter: blur(8px);
+        }
+        .product-card:hover {
+            transform: translateY(-8px);
+            border-color: rgba(66,133,244,0.35);
+            box-shadow: 0 20px 60px rgba(66,133,244,0.10);
+        }
+        .product-card .icon-wrap {
+            width: 80px; height: 80px;
+            margin: 0 auto 20px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+        }
+        .product-card:nth-child(1) .icon-wrap { background: linear-gradient(135deg, #1a2a6c, #3a3a9a); }
+        .product-card:nth-child(2) .icon-wrap { background: linear-gradient(135deg, #1a3a2a, #2a6a4a); }
+        .product-card:nth-child(3) .icon-wrap { background: linear-gradient(135deg, #4a1a3a, #8a2a6a); }
+        .product-card:nth-child(4) .icon-wrap { background: linear-gradient(135deg, #3a2a1a, #8a5a2a); }
+        .product-card .tag {
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 100px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+        .tag-new { background: rgba(66,133,244,0.2); color: #6ba3ff; border: 1px solid rgba(66,133,244,0.3); }
+        .tag-hot { background: rgba(255,107,53,0.2); color: #ff8a5c; border: 1px solid rgba(255,107,53,0.3); }
+        .tag-flagship { background: rgba(138,43,226,0.2); color: #b07eff; border: 1px solid rgba(138,43,226,0.3); }
+        .product-card h3 { font-size: 22px; margin-bottom: 6px; }
+        .product-card .price { font-size: 14px; color: rgba(255,255,255,0.5); margin-bottom: 16px; }
+        .product-card .price strong { color: #ff6b35; font-size: 18px; }
+        .product-card .benefits {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-top: 16px;
+        }
+        .product-card .benefits span {
+            padding: 4px 12px;
+            border-radius: 100px;
+            font-size: 12px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid rgba(255,255,255,0.08);
+            color: rgba(255,255,255,0.75);
+        }
+        .product-card .benefits .highlight-tag {
+            background: linear-gradient(135deg, rgba(255,107,53,0.2), rgba(255,107,53,0.1));
+            border-color: rgba(255,107,53,0.3);
+            color: #ff8a5c;
+        }
+
+        /* ===== Benefits ===== */
+        .benefits-bg {
+            background: linear-gradient(180deg, #111630 0%, #0b0e1a 100%);
+        }
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 24px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        .benefit-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 18px;
+            padding: 32px 24px;
+            text-align: center;
+            transition: all 0.4s;
+        }
+        .benefit-card:hover {
+            background: rgba(255,255,255,0.06);
+            border-color: rgba(66,133,244,0.25);
+            transform: translateY(-4px);
+        }
+        .benefit-card .emoji-icon { font-size: 44px; margin-bottom: 16px; display: block; }
+        .benefit-card h4 { font-size: 20px; margin-bottom: 8px; }
+        .benefit-card p { font-size: 14px; color: rgba(255,255,255,0.55); }
+
+        /* ===== Comparison Table ===== */
+        .table-wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+            overflow-x: auto;
+        }
+        .table-wrap table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 15px;
+        }
+        .table-wrap th, .table-wrap td {
+            padding: 16px 20px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            white-space: nowrap;
+        }
+        .table-wrap thead th {
+            background: rgba(66,133,244,0.12);
+            font-weight: 600;
+            font-size: 14px;
+            color: rgba(255,255,255,0.7);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .table-wrap thead th:first-child { border-radius: 12px 0 0 0; }
+        .table-wrap thead th:last-child { border-radius: 0 12px 0 0; }
+        .table-wrap tbody tr:hover { background: rgba(255,255,255,0.03); }
+        .table-wrap td .check { color: #4ade80; }
+        .table-wrap td .cross { color: rgba(255,255,255,0.2); }
+        .table-wrap td .val { color: #ff6b35; font-weight: 600; }
+
+        /* ===== Steps ===== */
+        .steps-bg {
+            background: linear-gradient(180deg, #0b0e1a 0%, #111630 100%);
+        }
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .step-card {
+            text-align: center;
+            padding: 28px 16px;
+        }
+        .step-card .step-num {
+            width: 48px; height: 48px;
+            margin: 0 auto 16px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4285f4, #6a3de8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 700;
+        }
+        .step-card h4 { font-size: 18px; margin-bottom: 6px; }
+        .step-card p { font-size: 14px; color: rgba(255,255,255,0.55); }
+
+        /* ===== Products Detail ===== */
+        .product-detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .detail-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 20px;
+            padding: 32px;
+            transition: all 0.4s;
+        }
+        .detail-card:hover {
+            border-color: rgba(66,133,244,0.25);
+            box-shadow: 0 12px 40px rgba(66,133,244,0.08);
+        }
+        .detail-card .product-line {
+            font-size: 12px;
+            color: rgba(255,255,255,0.4);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 4px;
+        }
+        .detail-card h3 { font-size: 24px; margin-bottom: 12px; }
+        .detail-card .desc { font-size: 14px; color: rgba(255,255,255,0.55); margin-bottom: 16px; }
+        .detail-card .detail-benefits { list-style: none; }
+        .detail-card .detail-benefits li {
+            padding: 8px 0;
+            font-size: 14px;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .detail-card .detail-benefits li::before {
+            content: '✦';
+            color: #4285f4;
+            font-size: 12px;
+        }
+
+        /* ===== Footer ===== */
+        footer {
+            text-align: center;
+            padding: 48px 24px 32px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            color: rgba(255,255,255,0.3);
+            font-size: 13px;
+            line-height: 1.8;
+        }
+        footer a { color: rgba(66,133,244,0.6); }
+        footer a:hover { color: rgba(66,133,244,0.9); }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 768px) {
+            section { padding: 48px 16px; }
+            .product-grid, .benefits-grid, .product-detail-grid { grid-template-columns: 1fr; }
+            .steps-grid { grid-template-columns: 1fr 1fr; }
+            .hero-countdown { gap: 8px; }
+            .hero-countdown .cd-item { min-width: 60px; padding: 10px 12px; }
+            .hero-countdown .cd-item .num { font-size: 24px; }
+        }
+        @media (max-width: 480px) {
+            .steps-grid { grid-template-columns: 1fr; }
+        }
+
+        /* ===== Nav ===== */
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 28px;
+            background: rgba(11,14,26,0.8);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .navbar .logo { font-weight: 700; font-size: 18px; }
+        .navbar .logo span { color: #4285f4; }
+        .nav-links { display: flex; gap: 24px; font-size: 14px; }
+        .nav-links a { color: rgba(255,255,255,0.5); transition: color 0.3s; }
+        .nav-links a:hover { color: #fff; }
+        @media (max-width: 768px) {
+            .navbar { padding: 12px 16px; }
+            .nav-links { gap: 12px; font-size: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ========== Nav ========== -->
+<nav class="navbar">
+    <div class="logo"><span>vivo</span> 夏日超值季</div>
+    <div class="nav-links">
+        <a href="#products">热门机型</a>
+        <a href="#benefits">权益总览</a>
+        <a href="#compare">权益对比</a>
+        <a href="#steps">参与方式</a>
+    </div>
+</nav>
+
+<!-- ========== Hero ========== -->
+<section class="hero" id="hero">
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+    <div class="particle"></div>
+
+    <div class="hero-badge">🔥 2026 夏日超值季 · 进行中</div>
+    <h1>
+        <span class="highlight">暑期限定</span> 权益盛典
+    </h1>
+    <p>iQOO 数字系列 · vivo S60 · vivo X 系列 — 分期免息、以旧换新、学生专享等多重好礼</p>
+
+    <div class="hero-countdown" id="countdown">
+        <div class="cd-item"><span class="num" id="cd-days">--</span><span class="label">天</span></div>
+        <div class="cd-item"><span class="num" id="cd-hours">--</span><span class="label">时</span></div>
+        <div class="cd-item"><span class="num" id="cd-mins">--</span><span class="label">分</span></div>
+        <div class="cd-item"><span class="num" id="cd-secs">--</span><span class="label">秒</span></div>
+    </div>
+
+    <a class="hero-cta" href="#benefits">立即查看权益 ↓</a>
+</section>
+
+<!-- ========== Products ========== -->
+<section class="products-bg" id="products">
+    <h2 class="section-title animate-on-scroll">🏆 热门机型推荐</h2>
+    <p class="section-sub animate-on-scroll">覆盖 iQOO 数字系列 · vivo S60 系列 · vivo X 系列，总有一款适合你</p>
+
+    <div class="product-grid">
+        <!-- iQOO 15 Ultra -->
+        <div class="product-card animate-on-scroll" style="transition-delay:0.05s">
+            <div class="icon-wrap">🚀</div>
+            <span class="tag tag-flagship">旗舰之王</span>
+            <h3>iQOO 15 Ultra</h3>
+            <div class="price">国补到手 <strong>¥4,999</strong> 起 <span style="color:rgba(255,255,255,0.3)">| 原价 ¥5,699</span></div>
+            <p style="font-size:13px;color:rgba(255,255,255,0.45)">第五代骁龙8至尊版 · 2K 三星屏 · 7400mAh · 主动散热</p>
+            <div class="benefits">
+                <span class="highlight-tag">24期免息</span>
+                <span>以旧换新补贴</span>
+                <span>国补¥700+</span>
+                <span>电竞礼包</span>
+            </div>
+        </div>
+
+        <!-- iQOO 15 -->
+        <div class="product-card animate-on-scroll" style="transition-delay:0.1s">
+            <div class="icon-wrap">⚡</div>
+            <span class="tag tag-hot">热销爆款</span>
+            <h3>iQOO 15</h3>
+            <div class="price">国补到手 <strong>¥3,800</strong> 起</div>
+            <p style="font-size:13px;color:rgba(255,255,255,0.45)">骁龙8至尊版 · 2K 144Hz · 6150mAh+120W · 全焦段影像</p>
+            <div class="benefits">
+                <span class="highlight-tag">24期免息</span>
+                <span>以旧换新补贴</span>
+                <span>国补优惠</span>
+            </div>
+        </div>
+
+        <!-- iQOO 15T -->
+        <div class="product-card animate-on-scroll" style="transition-delay:0.15s">
+            <div class="icon-wrap">🔋</div>
+            <span class="tag tag-hot">618热卖</span>
+            <h3>iQOO 15T</h3>
+            <div class="price">618大促 <strong>¥3,799</strong> 起 <span style="color:rgba(255,255,255,0.3)">| 立省 ¥300</span></div>
+            <p style="font-size:13px;color:rgba(255,255,255,0.45)">天玑9500 Monster · 8000mAh · 100W快充 · 2亿像素</p>
+            <div class="benefits">
+                <span class="highlight-tag">24期免息</span>
+                <span class="highlight-tag">618直降¥300</span>
+                <span>以旧换新</span>
+            </div>
+        </div>
+
+        <!-- vivo S60 -->
+        <div class="product-card animate-on-scroll" style="transition-delay:0.2s">
+            <div class="icon-wrap">📸</div>
+            <span class="tag tag-new">新品首发</span>
+            <h3>vivo S60 / S60 元气版</h3>
+            <div class="price">以旧换新至高补贴 <strong>¥1,200</strong></div>
+            <p style="font-size:13px;color:rgba(255,255,255,0.45)">5月29日发布 · 1元预订享¥1688福袋</p>
+            <div class="benefits">
+                <span class="highlight-tag">12期免息</span>
+                <span class="highlight-tag">以旧换新至高¥1,200</span>
+                <span>1元预订福袋</span>
+            </div>
+        </div>
+
+        <!-- vivo X300s -->
+        <div class="product-card animate-on-scroll" style="transition-delay:0.25s">
+            <div class="icon-wrap">✨</div>
+            <span class="tag tag-new">新品热销</span>
+            <h3>vivo X300s</h3>
+            <div class="price">国补价 <strong>¥4,499</strong> 起</div>
+            <p style="font-size:13px;color:rgba(255,255,255,0.45)">影像旗舰 · 以旧换新至高补贴¥1,200</p>
+            <div class="benefits">
+                <span class="highlight-tag">12期免息</span>
+                <span class="highlight-tag">以旧换新至高¥1,200</span>
+                <span>学生优惠</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== Benefits Overview ========== -->
+<section class="benefits-bg" id="benefits">
+    <h2 class="section-title animate-on-scroll">🎁 暑期专属权益</h2>
+    <p class="section-sub animate-on-scroll">多重好礼叠加，让你购机更超值</p>
+
+    <div class="benefits-grid">
+        <div class="benefit-card animate-on-scroll" style="transition-delay:0.05s">
+            <span class="emoji-icon">💳</span>
+            <h4>分期免息</h4>
+            <p>iQOO 系列支持最高 <strong style="color:#ff6b35">24期免息</strong>，vivo S/X 系列支持最高 <strong style="color:#ff6b35">12期免息</strong>，月付无压力</p>
+        </div>
+        <div class="benefit-card animate-on-scroll" style="transition-delay:0.1s">
+            <span class="emoji-icon">🔄</span>
+            <h4>以旧换新</h4>
+            <p>旧机回收 + 额外补贴，vivo S60 / X300s <strong style="color:#ff6b35">至高补贴 ¥1,200</strong>，轻松升级</p>
+        </div>
+        <div class="benefit-card animate-on-scroll" style="transition-delay:0.15s">
+            <span class="emoji-icon">🏛️</span>
+            <h4>国家补贴</h4>
+            <p>多款机型享受国补价，iQOO 15 Ultra 国补到手 <strong style="color:#ff6b35">¥4,999</strong> 起，至高优惠 ¥1,300</p>
+        </div>
+        <div class="benefit-card animate-on-scroll" style="transition-delay:0.2s">
+            <span class="emoji-icon">🎓</span>
+            <h4>学生 / 教师专享</h4>
+            <p>教育优惠专属价格，X300s / Y600 Pro / Pad6 Pro 等机型参与，凭相关证件享受</p>
+        </div>
+        <div class="benefit-card animate-on-scroll" style="transition-delay:0.25s">
+            <span class="emoji-icon">🎁</span>
+            <h4>新品预订礼</h4>
+            <p>vivo S60 系列 <strong style="color:#ff6b35">1元预订</strong> 即享价值 ¥1,688 福袋，数量有限先到先得</p>
+        </div>
+        <div class="benefit-card animate-on-scroll" style="transition-delay:0.3s">
+            <span class="emoji-icon">🛡️</span>
+            <h4>官方保障</h4>
+            <p>7天无理由退货 · 30天换货 · 1年全国联保 · 顺丰包邮 · 线上线下同价</p>
+        </div>
+    </div>
+</section>
+
+<!-- ========== Comparison Table ========== -->
+<section class="products-bg" id="compare">
+    <h2 class="section-title animate-on-scroll">📊 权益对比总览</h2>
+    <p class="section-sub animate-on-scroll">一目了然，快速选择最适合你的购机方案</p>
+
+    <div class="table-wrap animate-on-scroll">
+        <table>
+            <thead>
+                <tr>
+                    <th>机型</th>
+                    <th>分期免息</th>
+                    <th>以旧换新补贴</th>
+                    <th>国补价</th>
+                    <th>教育优惠</th>
+                    <th>其他福利</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>iQOO 15 Ultra</strong></td>
+                    <td><span class="check">✓</span> 24期</td>
+                    <td><span class="check">✓</span> 支持</td>
+                    <td><span class="val">¥4,999起</span></td>
+                    <td><span class="cross">—</span></td>
+                    <td>电竞礼包 · 主动散热</td>
+                </tr>
+                <tr>
+                    <td><strong>iQOO 15</strong></td>
+                    <td><span class="check">✓</span> 24期</td>
+                    <td><span class="check">✓</span> 支持</td>
+                    <td><span class="val">¥3,800起</span></td>
+                    <td><span class="cross">—</span></td>
+                    <td>全能均衡旗舰</td>
+                </tr>
+                <tr>
+                    <td><strong>iQOO 15T</strong></td>
+                    <td><span class="check">✓</span> 24期</td>
+                    <td><span class="check">✓</span> 支持</td>
+                    <td><span class="val">¥3,799起</span></td>
+                    <td><span class="cross">—</span></td>
+                    <td>618直降¥300</td>
+                </tr>
+                <tr>
+                    <td><strong>vivo S60</strong></td>
+                    <td><span class="check">✓</span> 12期</td>
+                    <td><span class="val">至高¥1,200</span></td>
+                    <td><span class="cross">—</span></td>
+                    <td><span class="cross">—</span></td>
+                    <td>1元预订¥1,688福袋</td>
+                </tr>
+                <tr>
+                    <td><strong>vivo S60 元气版</strong></td>
+                    <td><span class="check">✓</span> 12期</td>
+                    <td><span class="val">至高¥1,200</span></td>
+                    <td><span class="cross">—</span></td>
+                    <td><span class="cross">—</span></td>
+                    <td>1元预订福袋</td>
+                </tr>
+                <tr>
+                    <td><strong>vivo X300s</strong></td>
+                    <td><span class="check">✓</span> 12期</td>
+                    <td><span class="val">至高¥1,200</span></td>
+                    <td><span class="val">¥4,499起</span></td>
+                    <td><span class="check">✓</span> 支持</td>
+                    <td>影像旗舰</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</section>
+
+<!-- ========== Steps ========== -->
+<section class="steps-bg" id="steps">
+    <h2 class="section-title animate-on-scroll">📌 参与方式</h2>
+    <p class="section-sub animate-on-scroll">三步轻松享受暑期权益</p>
+
+    <div class="steps-grid">
+        <div class="step-card animate-on-scroll" style="transition-delay:0.05s">
+            <div class="step-num">1</div>
+            <h4>挑选机型</h4>
+            <p>在 vivo 官网 / 商城 App 或线下门店选择心仪机型</p>
+        </div>
+        <div class="step-card animate-on-scroll" style="transition-delay:0.1s">
+            <div class="step-num">2</div>
+            <h4>选择权益</h4>
+            <p>分期免息 / 以旧换新 / 教育优惠，多重权益可叠加使用</p>
+        </div>
+        <div class="step-card animate-on-scroll" style="transition-delay:0.15s">
+            <div class="step-num">3</div>
+            <h4>下单立享</h4>
+            <p>线上下单顺丰到家，线下门店即买即用，全国联保放心购</p>
+        </div>
+    </div>
+
+    <div style="text-align:center;margin-top:48px">
+        <p style="color:rgba(255,255,255,0.4);font-size:14px">* 活动时间：即日起至 2026 年 8 月 31 日 · 具体活动细则以 vivo 官方公布为准</p>
+        <div style="margin-top:24px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+            <a href="https://www.vivo.com.cn" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border-radius:60px;background:rgba(66,133,244,0.15);border:1px solid rgba(66,133,244,0.25);font-size:15px;transition:all 0.3s">🌐 访问 vivo 官网</a>
+            <a href="https://www.iqoo.com" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border-radius:60px;background:rgba(138,43,226,0.15);border:1px solid rgba(138,43,226,0.25);font-size:15px;transition:all 0.3s">🚀 访问 iQOO 官网</a>
+        </div>
+    </div>
+</section>
+
+<!-- ========== Product Details ========== -->
+<section class="benefits-bg" id="details">
+    <h2 class="section-title animate-on-scroll">🔍 产品系列详解</h2>
+    <p class="section-sub animate-on-scroll">深入了解各系列的核心优势与专属权益</p>
+
+    <div class="product-detail-grid">
+        <div class="detail-card animate-on-scroll" style="transition-delay:0.05s">
+            <div class="product-line">iQOO 数字系列</div>
+            <h3>性能旗舰 · 电竞巅峰</h3>
+            <p class="desc">专为追求极致性能的用户打造，顶级芯片 + 高刷屏 + 超级闪充，游戏体验拉满。</p>
+            <ul class="detail-benefits">
+                <li>24期免息分期，月付低至 ¥159 起</li>
+                <li>以旧换新额外补贴，老机升值</li>
+                <li>国家补贴至高优惠 ¥1,300</li>
+                <li>选购旗舰款赠送电竞配件礼包</li>
+                <li>支持 iQOO 生态互联（平板 / 游戏手柄）</li>
+            </ul>
+        </div>
+
+        <div class="detail-card animate-on-scroll" style="transition-delay:0.1s">
+            <div class="product-line">vivo S60 系列</div>
+            <h3>人像专家 · 潮流设计</h3>
+            <p class="desc">全新 S60 与 S60 元气版，5月29日正式发布，以旧换新补贴拉满。</p>
+            <ul class="detail-benefits">
+                <li>1元预订享价值 ¥1,688 新品福袋</li>
+                <li>以旧换新至高补贴 ¥1,200</li>
+                <li>12期免息分期，轻松入手</li>
+                <li>潮流配色 + 轻薄设计</li>
+                <li>专业人像影像系统</li>
+            </ul>
+        </div>
+
+        <div class="detail-card animate-on-scroll" style="transition-delay:0.15s">
+            <div class="product-line">vivo X 系列</div>
+            <h3>影像旗舰 · 专业之选</h3>
+            <p class="desc">X300s 领衔，搭载顶级影像系统，适合摄影爱好者与专业创作者。</p>
+            <ul class="detail-benefits">
+                <li>国补价 ¥4,499 起</li>
+                <li>12期免息分期</li>
+                <li>以旧换新至高补贴 ¥1,200</li>
+                <li>学生 / 教师专享教育优惠</li>
+                <li>专业级影像系统，出片即大片</li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- ========== Footer ========== -->
+<!-- ========== QR Code Overlay ========== -->
+<div class="qr-page" id="qrOverlay">
+    <div class="qr-wrap" id="qrWrap">
+        <div id="qrcode"></div>
+        <div style="font-size:13px;color:#333;font-weight:600">扫码查看全部权益</div>
+    </div>
+    <div class="hint">点击任意位置关闭</div>
+</div>
+
+<button class="qr-toggle-btn" id="qrBtn" title="显示二维码">📱</button>
+
+<footer>
+    <p>© 2026 vivo 夏日超值季 · 本页面为活动宣传展示页</p>
+    <p>活动详情以 <a href="https://www.vivo.com.cn" target="_blank">vivo 官网</a> 及 <a href="https://www.iqoo.com" target="_blank">iQOO 官网</a> 公布为准</p>
+    <p>* 各机型优惠方案及补贴金额可能随活动调整，请以购买时页面显示为准</p>
+</footer>
+
+<!-- ===== JS ===== -->
+<script>
+(function() {
+    // Countdown to August 31, 2026
+    const end = new Date('2026-08-31T23:59:59+08:00').getTime();
+    function tick() {
+        const now = Date.now();
+        const diff = Math.max(0, end - now);
+        const d = Math.floor(diff / 86400000);
+        const h = Math.floor((diff % 86400000) / 3600000);
+        const m = Math.floor((diff % 3600000) / 60000);
+        const s = Math.floor((diff % 60000) / 1000);
+        document.getElementById('cd-days').textContent = String(d).padStart(2,'0');
+        document.getElementById('cd-hours').textContent = String(h).padStart(2,'0');
+        document.getElementById('cd-mins').textContent = String(m).padStart(2,'0');
+        document.getElementById('cd-secs').textContent = String(s).padStart(2,'0');
+    }
+    tick();
+    setInterval(tick, 1000);
+
+    // Intersection Observer for scroll animations
+    const els = document.querySelectorAll('.animate-on-scroll');
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, { threshold: 0.15 });
+    els.forEach(el => observer.observe(el));
+
+    // Smooth nav scroll
+    document.querySelectorAll('.nav-links a').forEach(a => {
+        a.addEventListener('click', e => {
+            e.preventDefault();
+            const target = document.querySelector(a.getAttribute('href'));
+            if (target) target.scrollIntoView({ behavior: 'smooth' });
+        });
+    });
+
+    // ===== QR Code Generator =====
+    const qrOverlay = document.getElementById('qrOverlay');
+    const qrBtn = document.getElementById('qrBtn');
+    const pageUrl = window.location.href;
+
+    function generateQR() {
+        const container = document.getElementById('qrcode');
+        container.innerHTML = '';
+        new QRCode(container, {
+            text: pageUrl,
+            width: 220,
+            height: 220,
+            colorDark: '#0b0e1a',
+            colorLight: '#ffffff',
+            correctLevel: QRCode.CorrectLevel.H
+        });
+    }
+
+    qrBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (qrOverlay.classList.contains('active')) {
+            qrOverlay.classList.remove('active');
+        } else {
+            generateQR();
+            qrOverlay.classList.add('active');
+        }
+    });
+
+    qrOverlay.addEventListener('click', function() {
+        qrOverlay.classList.remove('active');
+    });
+    document.getElementById('qrWrap').addEventListener('click', function(e) {
+        e.stopPropagation();
+    });
+})();
+</script>
+</body>
+</html>

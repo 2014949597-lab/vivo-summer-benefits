@@ -1,0 +1,41 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.vivo.com.cn)",
+      "WebFetch(domain:www.iqoo.com)",
+      "WebSearch",
+      "Bash(curl -s --max-time 5 -o /dev/null -w \"%{http_code}\" https://api.qrserver.com/v1/create-qr-code/)",
+      "Bash(curl -s -L -o \"D:/360MoveData/Users/APPLE/Desktop/vivo/qr-code.png\" \"https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=file:///D:/360MoveData/Users/APPLE/Desktop/vivo/vivo-summer-benefits.html\")",
+      "Bash(node -e ' *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://localhost:8082/)",
+      "Bash(curl -s http://localhost:8082/)",
+      "Bash(node -e \"const os=require\\('os'\\);const ifaces=os.networkInterfaces\\(\\);for\\(const n of Object.keys\\(ifaces\\)\\)for\\(const i of ifaces[n]\\)if\\(i.family==='IPv4'&&!i.internal\\)console.log\\(i.address\\)\")",
+      "Bash(curl -s -L -o \"D:/360MoveData/Users/APPLE/Desktop/vivo/qr-code-store.png\" \"https://api.qrserver.com/v1/create-qr-code/?size=400x400&data=http://192.168.31.28:8082\")",
+      "Bash(xxd)",
+      "Bash(curl -s -o \"D:/360MoveData/Users/APPLE/Desktop/vivo/qr-code-store.png\" \"https://api.qrserver.com/v1/create-qr-code/?size=500x500&margin=20&data=http://192.168.31.28:8082\")",
+      "Bash(curl -s -o \"D:/360MoveData/Users/APPLE/Desktop/vivo/qr-code-store.png\" \"https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=http://192.168.31.28:8082\")",
+      "Bash(curl -s -o \"D:/360MoveData/Users/APPLE/Desktop/vivo/qr-code-store.jpg\" \"https://api.qrserver.com/v1/create-qr-code/?size=500x500&format=jpg&data=http://192.168.31.28:8082\")",
+      "mcp__Claude_in_Chrome__tabs_context_mcp",
+      "Bash(node -e \"try{require\\('sharp'\\);console.log\\('sharp found'\\)}catch\\(e\\){console.log\\('no sharp'\\)}\")",
+      "Bash(convert --version)",
+      "Bash(npm install *)",
+      "Bash(chrome --version)",
+      "Bash(\"C:/Program Files/Google/Chrome/Application/chrome.exe\" --version)",
+      "Bash(\"C:/Program Files \\(x86\\)/Google/Chrome/Application/chrome.exe\" --version)",
+      "Bash(reg query *)",
+      "Bash(\"C:/Program Files \\(x86\\)/Microsoft/Edge/Application/msedge.exe\" --version)",
+      "Bash(\"C:/Program Files/Microsoft/Edge/Application/msedge.exe\" --version)",
+      "Bash(cmd.exe /c \"where magick\")",
+      "Bash(cmd.exe /c \"where convert\")",
+      "Bash(cmd.exe /c \"where msedge\")",
+      "Bash(cmd.exe /c \"where edge\")",
+      "Read(//c/Program Files \\(x86\\)/Microsoft/Edge/Application//**)",
+      "Read(//c/Program Files/Microsoft/Edge/**)",
+      "Bash(\"/c/Program Files \\(x86\\)/Microsoft/Edge/Application/msedge.exe\" --headless --screenshot=\"D:/360MoveData/Users/APPLE/Desktop/vivo/qr-poster.jpg\" --window-size=480,700 --virtual-time-budget=5000 \"http://192.168.31.28:8083/?url=http://192.168.31.28:8082\")",
+      "Bash(git init *)",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(git config *)"
+    ]
+  }
+}

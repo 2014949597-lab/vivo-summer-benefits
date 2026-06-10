@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>vivo 夏日超值季 — 二维码海报</title>
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+    font-family: "PingFang SC", "Helvetica Neue", sans-serif;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 32px;
+}
+.poster {
+    width: 420px;
+    background: linear-gradient(135deg, #0b0e1a, #1a1f3a, #0f2b5c);
+    border-radius: 24px;
+    padding: 40px 32px 32px;
+    text-align: center;
+    box-shadow: 0 20px 80px rgba(0,0,0,0.3);
+}
+.poster .brand {
+    color: rgba(255,255,255,0.5);
+    font-size: 13px;
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+}
+.poster h1 {
+    color: #fff;
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 4px;
+}
+.poster h1 span { color: #4285f4; }
+.poster .sub {
+    color: rgba(255,255,255,0.5);
+    font-size: 14px;
+    margin-bottom: 24px;
+}
+.poster .qr-box {
+    background: #fff;
+    border-radius: 16px;
+    padding: 20px;
+    display: inline-block;
+    margin-bottom: 20px;
+}
+.poster .qr-box canvas { display: block; margin: 0 auto; }
+.poster .hint {
+    color: rgba(255,255,255,0.6);
+    font-size: 15px;
+    margin-bottom: 20px;
+}
+.poster .benefits-line {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+}
+.poster .benefits-line span {
+    display: inline-block;
+    padding: 4px 12px;
+    border-radius: 100px;
+    font-size: 11px;
+    background: rgba(255,255,255,0.08);
+    color: rgba(255,255,255,0.7);
+    border: 1px solid rgba(255,255,255,0.1);
+}
+@media print {
+    body { padding: 0; }
+    .poster { box-shadow: none; border-radius: 0; }
+    .poster .qr-box canvas { display: block; }
+}
+</style>
+</head>
+<body>
+<div class="poster">
+    <div class="brand">vivo 夏日超值季</div>
+    <h1><span>扫码</span>查看权益</h1>
+    <div class="sub">iQOO · vivo S60 · vivo X · 分期免息 · 以旧换新</div>
+    <div class="qr-box" id="qrcode"></div>
+    <div class="hint">📱 扫码浏览全部优惠</div>
+    <div class="benefits-line">
+        <span>💳 24期免息</span>
+        <span>🔄 以旧换新至高¥1,200</span>
+        <span>🏛️ 国补价</span>
+        <span>🎓 学生优惠</span>
+        <span>🎁 新品福袋</span>
+    </div>
+</div>
+<script>
+(function() {
+    // Read URL from query param ?url=..., default to a placeholder
+    var params = new URLSearchParams(window.location.search);
+    var targetUrl = params.get('url') || window.location.origin + window.location.pathname.replace(/\/[^/]*$/, '') + '/vivo-summer-benefits.html';
+    new QRCode(document.getElementById('qrcode'), {
+        text: targetUrl,
+        width: 240,
+        height: 240,
+        colorDark: '#0b0e1a',
+        colorLight: '#ffffff',
+        correctLevel: QRCode.CorrectLevel.H
+    });
+})();
+</script>
+</body>
+</html>
