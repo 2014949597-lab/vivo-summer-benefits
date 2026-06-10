@@ -97,7 +97,7 @@ body {
 (function() {
     // Read URL from query param ?url=..., default to a placeholder
     var params = new URLSearchParams(window.location.search);
-    var targetUrl = params.get('url') || window.location.origin + window.location.pathname.replace(/\/[^/]*$/, '') + '/vivo-summer-benefits.html';
+    var targetUrl = params.get('url') || 'https://2014949597-lab.github.io/vivo-summer-benefits/vivo-summer-benefits.html';
     new QRCode(document.getElementById('qrcode'), {
         text: targetUrl,
         width: 240,
