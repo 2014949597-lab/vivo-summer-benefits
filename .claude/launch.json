@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "vivo-preview",
+      "runtimeExecutable": "node",
+      "runtimeArgs": ["-e", "const http=require('http'),fs=require('fs'),path=require('path');const D='D:/360MoveData/Users/APPLE/Desktop/vivo';const mime={'.html':'text/html','.png':'image/png','.jpg':'image/jpeg','.jpeg':'image/jpeg','.webp':'image/webp'};http.createServer((q,r)=>{let up=new URL(q.url,'http://x').pathname;let fp=path.join(D,up==='/'?'vivo-summer-benefits.html':up);fs.readFile(fp,(e,d)=>{if(e){r.writeHead(404);r.end('404 '+fp);return}r.writeHead(200,{'Content-Type':mime[path.extname(fp)]||'text/html'});r.end(d)})}).listen(8092,()=>console.log('http://localhost:8092'));"],
+      "port": 8092
+    }
+  ]
+}
