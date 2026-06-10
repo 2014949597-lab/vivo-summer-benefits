@@ -1,907 +1,776 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>vivo 夏日超值季 — 暑期权益盛典</title>
-    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
-    <style>
-        /* ===== QR Page ===== */
-        .qr-page {
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(11,14,26,0.95);
-            backdrop-filter: blur(20px);
-            z-index: 200;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 24px;
-            cursor: pointer;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.5s;
-        }
-        .qr-page.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-        .qr-page .qr-wrap {
-            background: #fff;
-            padding: 24px;
-            border-radius: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-        }
-        .qr-page .qr-wrap img { display: block; }
-        .qr-page .hint {
-            color: rgba(255,255,255,0.5);
-            font-size: 14px;
-            letter-spacing: 1px;
-        }
-        .qr-toggle-btn {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            z-index: 199;
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #4285f4, #6a3de8);
-            border: none;
-            color: #fff;
-            font-size: 24px;
-            cursor: pointer;
-            box-shadow: 0 4px 20px rgba(66,133,244,0.3);
-            transition: transform 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .qr-toggle-btn:hover { transform: scale(1.1); }
-        @media print {
-            .qr-toggle-btn, .navbar { display: none; }
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>vivo 夏日超值季 — 2026暑期全系产品权益盛典</title>
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:-apple-system,"PingFang SC","Helvetica Neue",sans-serif;background:#0b0e1a;color:#fff;overflow-x:hidden;line-height:1.6}
+a{text-decoration:none;color:inherit}
+img{max-width:100%;display:block}
 
-        /* ===== Reset & Base ===== */
-        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-        html { scroll-behavior: smooth; }
-        body {
-            font-family: -apple-system, "PingFang SC", "Helvetica Neue", sans-serif;
-            background: #0b0e1a;
-            color: #fff;
-            overflow-x: hidden;
-            line-height: 1.6;
-        }
-        a { text-decoration: none; color: inherit; }
+@keyframes fadeInUp{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
+@keyframes bgPan{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(66,133,244,0.5)}50%{box-shadow:0 0 0 20px rgba(66,133,244,0)}}
+@keyframes shimmer{0%{background-position:-200% center}100%{background-position:200% center}}
+.anim{opacity:0;transform:translateY(40px);transition:opacity 0.8s ease,transform 0.8s ease}
+.anim.show{opacity:1;transform:translateY(0)}
 
-        /* ===== Animations ===== */
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeInScale {
-            from { opacity: 0; transform: scale(0.85); }
-            to { opacity: 1; transform: scale(1); }
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-16px); }
-        }
-        @keyframes shimmer {
-            0% { background-position: -200% center; }
-            100% { background-position: 200% center; }
-        }
-        @keyframes pulse {
-            0%, 100% { box-shadow: 0 0 0 0 rgba(66, 133, 244, 0.5); }
-            50% { box-shadow: 0 0 0 20px rgba(66, 133, 244, 0); }
-        }
-        @keyframes slideInLeft {
-            from { opacity: 0; transform: translateX(-60px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes slideInRight {
-            from { opacity: 0; transform: translateX(60px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes bgPan {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 1; }
-        }
-        .animate-on-scroll {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: opacity 0.8s ease, transform 0.8s ease;
-        }
-        .animate-on-scroll.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
+/* Nav */
+.navbar{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:12px 24px;background:rgba(11,14,26,0.85);backdrop-filter:blur(16px);border-bottom:1px solid rgba(255,255,255,0.06)}
+.navbar .logo{font-weight:700;font-size:17px}.navbar .logo span{color:#4285f4}
+.nav-links{display:flex;gap:16px;font-size:13px;overflow-x:auto;white-space:nowrap;-webkit-overflow-scrolling:touch;padding-bottom:4px}
+.nav-links a{color:rgba(255,255,255,0.5);transition:color 0.3s;flex-shrink:0}
+.nav-links a:hover{color:#fff}
 
-        /* ===== Hero Section ===== */
-        .hero {
-            position: relative;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            padding: 40px 24px;
-            background: linear-gradient(135deg, #0b0e1a 0%, #1a1f3a 30%, #0f2b5c 60%, #1a0a2e 100%);
-            background-size: 400% 400%;
-            animation: bgPan 20s ease infinite;
-            overflow: hidden;
-        }
-        .hero::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(ellipse at 20% 50%, rgba(66,133,244,0.12) 0%, transparent 60%),
-                        radial-gradient(ellipse at 80% 30%, rgba(138,43,226,0.10) 0%, transparent 50%),
-                        radial-gradient(ellipse at 50% 80%, rgba(255,107,53,0.08) 0%, transparent 50%);
-            pointer-events: none;
-        }
-        .hero .particle {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(255,255,255,0.06);
-            pointer-events: none;
-            animation: float 6s ease-in-out infinite;
-        }
-        .hero .particle:nth-child(1) { width: 4px; height: 4px; top: 12%; left: 8%; animation-delay: 0s; }
-        .hero .particle:nth-child(2) { width: 6px; height: 6px; top: 25%; right: 15%; animation-delay: 1s; }
-        .hero .particle:nth-child(3) { width: 3px; height: 3px; top: 60%; left: 20%; animation-delay: 2s; }
-        .hero .particle:nth-child(4) { width: 5px; height: 5px; bottom: 30%; right: 25%; animation-delay: 0.5s; }
-        .hero .particle:nth-child(5) { width: 8px; height: 8px; top: 40%; left: 75%; animation-delay: 1.5s; }
-        .hero .particle:nth-child(6) { width: 4px; height: 4px; bottom: 15%; left: 40%; animation-delay: 2.5s; }
+/* Hero */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px 40px;background:linear-gradient(135deg,#0b0e1a 0%,#1a1f3a 30%,#0f2b5c 60%,#1a0a2e 100%);background-size:400% 400%;animation:bgPan 20s ease infinite;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 20% 50%,rgba(66,133,244,0.12) 0%,transparent 60%),radial-gradient(ellipse at 80% 30%,rgba(138,43,226,0.10) 0%,transparent 50%),radial-gradient(ellipse at 50% 80%,rgba(255,107,53,0.08) 0%,transparent 50%);pointer-events:none}
+.hero-badge{display:inline-block;padding:6px 20px;border-radius:100px;background:linear-gradient(135deg,rgba(66,133,244,0.25),rgba(138,43,226,0.25));border:1px solid rgba(66,133,244,0.3);font-size:13px;letter-spacing:2px;color:rgba(255,255,255,0.8);margin-bottom:20px;animation:fadeInUp 0.8s ease}
+.hero h1{font-size:clamp(36px,7vw,80px);font-weight:800;line-height:1.1;margin-bottom:12px;animation:fadeInUp 0.8s ease 0.15s both}
+.hero h1 .hl{background:linear-gradient(135deg,#4285f4,#8a2be2,#ff6b35);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero p{font-size:clamp(14px,2vw,20px);color:rgba(255,255,255,0.6);max-width:680px;margin-bottom:12px;animation:fadeInUp 0.8s ease 0.3s both}
+.hero-info{font-size:13px;color:rgba(255,255,255,0.35);animation:fadeInUp 0.8s ease 0.4s both}
+.hero-cta{display:inline-flex;align-items:center;gap:10px;padding:14px 36px;border-radius:60px;background:linear-gradient(135deg,#4285f4,#6a3de8);font-size:16px;font-weight:600;margin-top:24px;transition:transform 0.3s;animation:fadeInUp 0.8s ease 0.5s both,pulse 2.5s ease-in-out 1.5s infinite}
+.hero-cta:hover{transform:translateY(-3px) scale(1.03)}
 
-        .hero-badge {
-            display: inline-block;
-            padding: 6px 20px;
-            border-radius: 100px;
-            background: linear-gradient(135deg, rgba(66,133,244,0.25), rgba(138,43,226,0.25));
-            border: 1px solid rgba(66,133,244,0.3);
-            font-size: 14px;
-            letter-spacing: 2px;
-            color: rgba(255,255,255,0.8);
-            margin-bottom: 24px;
-            animation: fadeInUp 0.8s ease;
-        }
-        .hero h1 {
-            font-size: clamp(40px, 8vw, 88px);
-            font-weight: 800;
-            line-height: 1.1;
-            margin-bottom: 16px;
-            animation: fadeInUp 0.8s ease 0.15s both;
-        }
-        .hero h1 .highlight {
-            background: linear-gradient(135deg, #4285f4, #8a2be2, #ff6b35);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        .hero p {
-            font-size: clamp(16px, 2.2vw, 22px);
-            color: rgba(255,255,255,0.65);
-            max-width: 640px;
-            margin-bottom: 32px;
-            animation: fadeInUp 0.8s ease 0.3s both;
-        }
-        .hero-countdown {
-            display: flex;
-            gap: 16px;
-            justify-content: center;
-            margin-bottom: 40px;
-            animation: fadeInUp 0.8s ease 0.45s both;
-        }
-        .hero-countdown .cd-item {
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 14px;
-            padding: 12px 20px;
-            min-width: 72px;
-            text-align: center;
-        }
-        .hero-countdown .cd-item .num {
-            font-size: 32px;
-            font-weight: 700;
-            display: block;
-            line-height: 1.2;
-        }
-        .hero-countdown .cd-item .label {
-            font-size: 12px;
-            color: rgba(255,255,255,0.5);
-        }
-        .hero-cta {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 16px 40px;
-            border-radius: 60px;
-            background: linear-gradient(135deg, #4285f4, #6a3de8);
-            font-size: 18px;
-            font-weight: 600;
-            transition: transform 0.3s, box-shadow 0.3s;
-            animation: fadeInUp 0.8s ease 0.6s both, pulse 2.5s ease-in-out 1.5s infinite;
-        }
-        .hero-cta:hover { transform: translateY(-3px) scale(1.03); }
+/* Section */
+section{padding:64px 16px}
+.section-title{text-align:center;font-size:clamp(26px,3.5vw,40px);font-weight:700;margin-bottom:8px}
+.section-sub{text-align:center;color:rgba(255,255,255,0.5);font-size:15px;margin-bottom:36px}
+.bg1{background:linear-gradient(180deg,#0b0e1a 0%,#111630 100%)}
+.bg2{background:linear-gradient(180deg,#111630 0%,#0b0e1a 100%)}
 
-        /* ===== Section Common ===== */
-        section { padding: 80px 24px; }
-        .section-title {
-            text-align: center;
-            font-size: clamp(28px, 4vw, 44px);
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-        .section-sub {
-            text-align: center;
-            color: rgba(255,255,255,0.55);
-            font-size: 16px;
-            margin-bottom: 48px;
-        }
+/* Series header */
+.series-header{display:flex;align-items:center;gap:12px;justify-content:center;margin-bottom:28px}
+.series-header .icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px}
+.series-header h2{font-size:26px;font-weight:700}
 
-        /* ===== Products ===== */
-        .products-bg {
-            background: linear-gradient(180deg, #0b0e1a 0%, #111630 100%);
-        }
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 28px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .product-card {
-            background: rgba(255,255,255,0.04);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 20px;
-            padding: 36px 28px 28px;
-            text-align: center;
-            transition: transform 0.4s, border-color 0.4s, box-shadow 0.4s;
-            backdrop-filter: blur(8px);
-        }
-        .product-card:hover {
-            transform: translateY(-8px);
-            border-color: rgba(66,133,244,0.35);
-            box-shadow: 0 20px 60px rgba(66,133,244,0.10);
-        }
-        .product-card .icon-wrap {
-            width: 80px; height: 80px;
-            margin: 0 auto 20px;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 36px;
-        }
-        .product-card:nth-child(1) .icon-wrap { background: linear-gradient(135deg, #1a2a6c, #3a3a9a); }
-        .product-card:nth-child(2) .icon-wrap { background: linear-gradient(135deg, #1a3a2a, #2a6a4a); }
-        .product-card:nth-child(3) .icon-wrap { background: linear-gradient(135deg, #4a1a3a, #8a2a6a); }
-        .product-card:nth-child(4) .icon-wrap { background: linear-gradient(135deg, #3a2a1a, #8a5a2a); }
-        .product-card .tag {
-            display: inline-block;
-            padding: 4px 14px;
-            border-radius: 100px;
-            font-size: 12px;
-            font-weight: 600;
-            margin-bottom: 12px;
-        }
-        .tag-new { background: rgba(66,133,244,0.2); color: #6ba3ff; border: 1px solid rgba(66,133,244,0.3); }
-        .tag-hot { background: rgba(255,107,53,0.2); color: #ff8a5c; border: 1px solid rgba(255,107,53,0.3); }
-        .tag-flagship { background: rgba(138,43,226,0.2); color: #b07eff; border: 1px solid rgba(138,43,226,0.3); }
-        .product-card h3 { font-size: 22px; margin-bottom: 6px; }
-        .product-card .price { font-size: 14px; color: rgba(255,255,255,0.5); margin-bottom: 16px; }
-        .product-card .price strong { color: #ff6b35; font-size: 18px; }
-        .product-card .benefits {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-            justify-content: center;
-            margin-top: 16px;
-        }
-        .product-card .benefits span {
-            padding: 4px 12px;
-            border-radius: 100px;
-            font-size: 12px;
-            background: rgba(255,255,255,0.06);
-            border: 1px solid rgba(255,255,255,0.08);
-            color: rgba(255,255,255,0.75);
-        }
-        .product-card .benefits .highlight-tag {
-            background: linear-gradient(135deg, rgba(255,107,53,0.2), rgba(255,107,53,0.1));
-            border-color: rgba(255,107,53,0.3);
-            color: #ff8a5c;
-        }
+/* Product Grid */
+.prod-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;max-width:1240px;margin:0 auto}
 
-        /* ===== Benefits ===== */
-        .benefits-bg {
-            background: linear-gradient(180deg, #111630 0%, #0b0e1a 100%);
-        }
-        .benefits-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-            gap: 24px;
-            max-width: 1100px;
-            margin: 0 auto;
-        }
-        .benefit-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 18px;
-            padding: 32px 24px;
-            text-align: center;
-            transition: all 0.4s;
-        }
-        .benefit-card:hover {
-            background: rgba(255,255,255,0.06);
-            border-color: rgba(66,133,244,0.25);
-            transform: translateY(-4px);
-        }
-        .benefit-card .emoji-icon { font-size: 44px; margin-bottom: 16px; display: block; }
-        .benefit-card h4 { font-size: 20px; margin-bottom: 8px; }
-        .benefit-card p { font-size: 14px; color: rgba(255,255,255,0.55); }
+/* Product Card */
+.pcard{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:18px;overflow:hidden;transition:all 0.4s}
+.pcard:hover{transform:translateY(-6px);border-color:rgba(66,133,244,0.3);box-shadow:0 16px 48px rgba(66,133,244,0.10)}
+.pcard .pimg{width:100%;height:220px;background:linear-gradient(135deg,rgba(66,133,244,0.08),rgba(138,43,226,0.08));display:flex;align-items:center;justify-content:center;font-size:64px;position:relative;overflow:hidden}
+.pcard .pimg .product-placeholder{font-size:72px;opacity:0.7}
+.pcard .pimg .ptag{position:absolute;top:12px;left:12px;padding:3px 10px;border-radius:6px;font-size:11px;font-weight:600}
+.ptag-new{background:rgba(66,133,244,0.25);color:#6ba3ff;border:1px solid rgba(66,133,244,0.3)}
+.ptag-hot{background:rgba(255,107,53,0.2);color:#ff8a5c;border:1px solid rgba(255,107,53,0.3)}
+.ptag-flag{background:rgba(138,43,226,0.25);color:#b07eff;border:1px solid rgba(138,43,226,0.3)}
+.ptag-best{background:rgba(0,200,150,0.2);color:#4ade80;border:1px solid rgba(0,200,150,0.3)}
 
-        /* ===== Comparison Table ===== */
-        .table-wrap {
-            max-width: 1100px;
-            margin: 0 auto;
-            overflow-x: auto;
-        }
-        .table-wrap table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 15px;
-        }
-        .table-wrap th, .table-wrap td {
-            padding: 16px 20px;
-            text-align: left;
-            border-bottom: 1px solid rgba(255,255,255,0.06);
-            white-space: nowrap;
-        }
-        .table-wrap thead th {
-            background: rgba(66,133,244,0.12);
-            font-weight: 600;
-            font-size: 14px;
-            color: rgba(255,255,255,0.7);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .table-wrap thead th:first-child { border-radius: 12px 0 0 0; }
-        .table-wrap thead th:last-child { border-radius: 0 12px 0 0; }
-        .table-wrap tbody tr:hover { background: rgba(255,255,255,0.03); }
-        .table-wrap td .check { color: #4ade80; }
-        .table-wrap td .cross { color: rgba(255,255,255,0.2); }
-        .table-wrap td .val { color: #ff6b35; font-weight: 600; }
+.pcard .pbody{padding:20px}
+.pcard .pbody h3{font-size:18px;margin-bottom:4px}
+.pcard .pbody .psub{font-size:13px;color:rgba(255,255,255,0.4);margin-bottom:12px}
+.pcard .pbody .pspec{font-size:12px;color:rgba(255,255,255,0.55);line-height:1.7;margin-bottom:12px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.pcard .pbody .sell-point{display:flex;flex-wrap:wrap;gap:4px;margin-bottom:12px}
+.pcard .pbody .sell-point span{padding:2px 8px;border-radius:4px;font-size:11px;background:rgba(255,107,53,0.15);color:#ff8a5c;border:1px solid rgba(255,107,53,0.2)}
 
-        /* ===== Steps ===== */
-        .steps-bg {
-            background: linear-gradient(180deg, #0b0e1a 0%, #111630 100%);
-        }
-        .steps-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            max-width: 1000px;
-            margin: 0 auto;
-        }
-        .step-card {
-            text-align: center;
-            padding: 28px 16px;
-        }
-        .step-card .step-num {
-            width: 48px; height: 48px;
-            margin: 0 auto 16px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #4285f4, #6a3de8);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            font-weight: 700;
-        }
-        .step-card h4 { font-size: 18px; margin-bottom: 6px; }
-        .step-card p { font-size: 14px; color: rgba(255,255,255,0.55); }
+/* Price Table */
+.price-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}
+.price-table th,.price-table td{padding:8px 10px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.06)}
+.price-table th{font-size:11px;color:rgba(255,255,255,0.4);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;background:rgba(66,133,244,0.08)}
+.price-table .orig{color:rgba(255,255,255,0.35);text-decoration:line-through;font-size:12px}
+.price-table .gbt{color:#ff6b35;font-weight:700}
+.price-table tr:hover{background:rgba(255,255,255,0.03)}
 
-        /* ===== Products Detail ===== */
-        .product-detail-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .detail-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 20px;
-            padding: 32px;
-            transition: all 0.4s;
-        }
-        .detail-card:hover {
-            border-color: rgba(66,133,244,0.25);
-            box-shadow: 0 12px 40px rgba(66,133,244,0.08);
-        }
-        .detail-card .product-line {
-            font-size: 12px;
-            color: rgba(255,255,255,0.4);
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-bottom: 4px;
-        }
-        .detail-card h3 { font-size: 24px; margin-bottom: 12px; }
-        .detail-card .desc { font-size: 14px; color: rgba(255,255,255,0.55); margin-bottom: 16px; }
-        .detail-card .detail-benefits { list-style: none; }
-        .detail-card .detail-benefits li {
-            padding: 8px 0;
-            font-size: 14px;
-            border-bottom: 1px solid rgba(255,255,255,0.04);
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .detail-card .detail-benefits li::before {
-            content: '✦';
-            color: #4285f4;
-            font-size: 12px;
-        }
+/* Benefits Table */
+.benefits-overview{max-width:1200px;margin:0 auto}
+.bf-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-bottom:40px}
+.bf-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:24px 16px;text-align:center;transition:all 0.3s}
+.bf-card:hover{background:rgba(255,255,255,0.06);border-color:rgba(66,133,244,0.2);transform:translateY(-3px)}
+.bf-card .bf-icon{font-size:36px;display:block;margin-bottom:10px}
+.bf-card h4{font-size:16px;margin-bottom:6px}
+.bf-card p{font-size:13px;color:rgba(255,255,255,0.5);line-height:1.5}
+.bf-card .bf-val{color:#ff6b35;font-weight:700}
 
-        /* ===== Footer ===== */
-        footer {
-            text-align: center;
-            padding: 48px 24px 32px;
-            border-top: 1px solid rgba(255,255,255,0.06);
-            color: rgba(255,255,255,0.3);
-            font-size: 13px;
-            line-height: 1.8;
-        }
-        footer a { color: rgba(66,133,244,0.6); }
-        footer a:hover { color: rgba(66,133,244,0.9); }
+/* Full Compare Table */
+.comp-wrap{max-width:1240px;margin:0 auto;overflow-x:auto}
+.comp-table{width:100%;border-collapse:collapse;font-size:13px;min-width:800px}
+.comp-table th,.comp-table td{padding:10px 12px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.06);vertical-align:middle}
+.comp-table th{background:rgba(66,133,244,0.1);font-weight:600;font-size:12px;color:rgba(255,255,255,0.6);white-space:nowrap;position:sticky;top:0;z-index:2}
+.comp-table th:first-child{border-radius:10px 0 0 0}
+.comp-table th:last-child{border-radius:0 10px 0 0}
+.comp-table td:first-child{text-align:left;font-weight:600;white-space:nowrap}
+.comp-table tbody tr:hover{background:rgba(255,255,255,0.03)}
+.comp-table .chk{color:#4ade80;font-size:16px}
+.comp-table .no{color:rgba(255,255,255,0.15);font-size:14px}
+.comp-table .amt{color:#ff6b35;font-weight:600}
+.comp-table tr.series-group td:first-child{color:#4285f4;font-size:12px;letter-spacing:1px;text-transform:uppercase}
 
-        /* ===== Responsive ===== */
-        @media (max-width: 768px) {
-            section { padding: 48px 16px; }
-            .product-grid, .benefits-grid, .product-detail-grid { grid-template-columns: 1fr; }
-            .steps-grid { grid-template-columns: 1fr 1fr; }
-            .hero-countdown { gap: 8px; }
-            .hero-countdown .cd-item { min-width: 60px; padding: 10px 12px; }
-            .hero-countdown .cd-item .num { font-size: 24px; }
-        }
-        @media (max-width: 480px) {
-            .steps-grid { grid-template-columns: 1fr; }
-        }
+/* Steps */
+.steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;max-width:900px;margin:0 auto}
+.step-card{text-align:center;padding:24px 16px}
+.step-num{width:44px;height:44px;margin:0 auto 12px;border-radius:50%;background:linear-gradient(135deg,#4285f4,#6a3de8);display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:700}
+.step-card h4{font-size:17px;margin-bottom:4px}
+.step-card p{font-size:13px;color:rgba(255,255,255,0.5)}
 
-        /* ===== Nav ===== */
-        .navbar {
-            position: fixed;
-            top: 0; left: 0; right: 0;
-            z-index: 100;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 14px 28px;
-            background: rgba(11,14,26,0.8);
-            backdrop-filter: blur(16px);
-            border-bottom: 1px solid rgba(255,255,255,0.06);
-        }
-        .navbar .logo { font-weight: 700; font-size: 18px; }
-        .navbar .logo span { color: #4285f4; }
-        .nav-links { display: flex; gap: 24px; font-size: 14px; }
-        .nav-links a { color: rgba(255,255,255,0.5); transition: color 0.3s; }
-        .nav-links a:hover { color: #fff; }
-        @media (max-width: 768px) {
-            .navbar { padding: 12px 16px; }
-            .nav-links { gap: 12px; font-size: 12px; }
-        }
-    </style>
+/* Footer */
+footer{text-align:center;padding:40px 24px 28px;border-top:1px solid rgba(255,255,255,0.06);color:rgba(255,255,255,0.25);font-size:12px;line-height:1.8}
+footer a{color:rgba(66,133,244,0.5)}
+
+/* QR overlay */
+.qr-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(11,14,26,0.95);backdrop-filter:blur(20px);z-index:200;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;cursor:pointer;opacity:0;pointer-events:none;transition:opacity 0.4s}
+.qr-overlay.active{opacity:1;pointer-events:auto}
+.qr-overlay .qr-wrap{background:#fff;padding:24px;border-radius:18px;display:flex;flex-direction:column;align-items:center;gap:10px}
+.qr-overlay .hint{color:rgba(255,255,255,0.4);font-size:13px;letter-spacing:1px}
+.qr-btn{position:fixed;bottom:20px;right:20px;z-index:199;width:52px;height:52px;border-radius:50%;background:linear-gradient(135deg,#4285f4,#6a3de8);border:none;color:#fff;font-size:22px;cursor:pointer;box-shadow:0 4px 20px rgba(66,133,244,0.3);transition:transform 0.3s;display:flex;align-items:center;justify-content:center}
+.qr-btn:hover{transform:scale(1.1)}
+
+/* Eco series colors */
+.eco-x .pimg{background:linear-gradient(135deg,rgba(66,133,244,0.12),rgba(40,80,200,0.12))}
+.eco-s .pimg{background:linear-gradient(135deg,rgba(255,107,53,0.12),rgba(255,50,100,0.12))}
+.eco-iqoo-d .pimg{background:linear-gradient(135deg,rgba(138,43,226,0.12),rgba(60,20,120,0.12))}
+.eco-iqoo-n .pimg{background:linear-gradient(135deg,rgba(0,200,150,0.12),rgba(0,150,100,0.12))}
+.eco-iqoo-z .pimg{background:linear-gradient(135deg,rgba(255,180,0,0.12),rgba(200,120,0,0.12))}
+.eco-y .pimg{background:linear-gradient(135deg,rgba(0,150,255,0.12),rgba(0,100,200,0.12))}
+.eco-pad .pimg{background:linear-gradient(135deg,rgba(100,200,255,0.12),rgba(50,100,200,0.12))}
+.eco-watch .pimg{background:linear-gradient(135deg,rgba(50,200,200,0.12),rgba(0,150,150,0.12))}
+.eco-audio .pimg{background:linear-gradient(135deg,rgba(200,100,255,0.12),rgba(150,50,200,0.12))}
+
+/* Responsive */
+@media(max-width:768px){
+  .navbar{padding:10px 14px}
+  .nav-links{gap:10px;font-size:12px}
+  section{padding:40px 12px}
+  .prod-grid{grid-template-columns:1fr}
+  .comp-table{font-size:12px}
+  .comp-table th,.comp-table td{padding:6px 8px}
+}
+@media print{.qr-btn,.navbar{display:none}}
+
+/* Category label */
+.cat-label{display:inline-block;padding:2px 10px;border-radius:4px;font-size:10px;font-weight:600;letter-spacing:1px;margin-bottom:6px}
+.cat-x{background:rgba(66,133,244,0.15);color:#6ba3ff}
+.cat-s{background:rgba(255,107,53,0.15);color:#ff8a5c}
+.cat-iqoo{background:rgba(138,43,226,0.15);color:#b07eff}
+.cat-y{background:rgba(0,150,255,0.15);color:#5cb8ff}
+.cat-pad{background:rgba(100,200,255,0.15);color:#6ac8ff}
+.cat-watch{background:rgba(50,200,200,0.15);color:#4ae0e0}
+.cat-audio{background:rgba(200,100,255,0.15);color:#c07eff}
+</style>
 </head>
 <body>
 
-<!-- ========== Nav ========== -->
 <nav class="navbar">
     <div class="logo"><span>vivo</span> 夏日超值季</div>
     <div class="nav-links">
-        <a href="#products">热门机型</a>
-        <a href="#benefits">权益总览</a>
+        <a href="#x-series">X系列</a>
+        <a href="#s-series">S60系列</a>
+        <a href="#iqoo-d">iQOO数字</a>
+        <a href="#iqoo-n">Neo系列</a>
+        <a href="#iqoo-z">Z系列</a>
+        <a href="#y-series">Y系列</a>
+        <a href="#pad">平板</a>
+        <a href="#watch">手表</a>
+        <a href="#audio">耳机</a>
         <a href="#compare">权益对比</a>
-        <a href="#steps">参与方式</a>
     </div>
 </nav>
 
-<!-- ========== Hero ========== -->
-<section class="hero" id="hero">
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-    <div class="particle"></div>
-
-    <div class="hero-badge">🔥 2026 夏日超值季 · 进行中</div>
-    <h1>
-        <span class="highlight">暑期限定</span> 权益盛典
-    </h1>
-    <p>iQOO 数字系列 · vivo S60 · vivo X 系列 — 分期免息、以旧换新、学生专享等多重好礼</p>
-
-    <div class="hero-countdown" id="countdown">
-        <div class="cd-item"><span class="num" id="cd-days">--</span><span class="label">天</span></div>
-        <div class="cd-item"><span class="num" id="cd-hours">--</span><span class="label">时</span></div>
-        <div class="cd-item"><span class="num" id="cd-mins">--</span><span class="label">分</span></div>
-        <div class="cd-item"><span class="num" id="cd-secs">--</span><span class="label">秒</span></div>
-    </div>
-
-    <a class="hero-cta" href="#benefits">立即查看权益 ↓</a>
+<!-- ===== HERO ===== -->
+<section class="hero">
+    <div class="hero-badge">🔥 2026 夏日超值季 · 火热进行中</div>
+    <h1><span class="hl">全系集结</span> 暑期限定</h1>
+    <p>vivo X300 系列 · S60 系列 · iQOO 数字/Neo/Z 系列 · Y600 Pro · 平板 · 手表 · 耳机<br>分期免息 · 以旧换新 · 学生专享 · 国补价 · 赠品好礼</p>
+    <div class="hero-info">活动时间：即日起 — 2026年8月31日</div>
+    <a class="hero-cta" href="#x-series">浏览全部产品 ↓</a>
 </section>
 
-<!-- ========== Products ========== -->
-<section class="products-bg" id="products">
-    <h2 class="section-title animate-on-scroll">🏆 热门机型推荐</h2>
-    <p class="section-sub animate-on-scroll">覆盖 iQOO 数字系列 · vivo S60 系列 · vivo X 系列，总有一款适合你</p>
-
-    <div class="product-grid">
-        <!-- iQOO 15 Ultra -->
-        <div class="product-card animate-on-scroll" style="transition-delay:0.05s">
-            <div class="icon-wrap">🚀</div>
-            <span class="tag tag-flagship">旗舰之王</span>
-            <h3>iQOO 15 Ultra</h3>
-            <div class="price">国补到手 <strong>¥4,999</strong> 起 <span style="color:rgba(255,255,255,0.3)">| 原价 ¥5,699</span></div>
-            <p style="font-size:13px;color:rgba(255,255,255,0.45)">第五代骁龙8至尊版 · 2K 三星屏 · 7400mAh · 主动散热</p>
-            <div class="benefits">
-                <span class="highlight-tag">24期免息</span>
-                <span>以旧换新补贴</span>
-                <span>国补¥700+</span>
-                <span>电竞礼包</span>
-            </div>
+<!-- ===== BENEFITS OVERVIEW ===== -->
+<section class="bg2">
+    <h2 class="section-title anim">🎁 暑期购机权益总览</h2>
+    <p class="section-sub anim">多重好礼叠加，购机正当时</p>
+    <div class="benefits-overview">
+        <div class="bf-grid">
+            <div class="bf-card anim"><span class="bf-icon">💳</span><h4>分期免息</h4><p>iQOO 系列最高 <span class="bf-val">24期免息</span><br>X/S60 系列最高 <span class="bf-val">12期免息</span></p></div>
+            <div class="bf-card anim"><span class="bf-icon">🔄</span><h4>以旧换新</h4><p>旧机回收+额外补贴<br>S60/X300s 至高 <span class="bf-val">¥1,200</span></p></div>
+            <div class="bf-card anim"><span class="bf-icon">🏛️</span><h4>国家补贴</h4><p>多款机型享国补价<br>至高优惠 <span class="bf-val">¥1,300</span></p></div>
+            <div class="bf-card anim"><span class="bf-icon">🎓</span><h4>学生/教师专享</h4><p>专属教育优惠价<br>加赠 <span class="bf-val">充电宝</span> + 碎屏保</p></div>
+            <div class="bf-card anim"><span class="bf-icon">🎁</span><h4>预订礼包</h4><p>S60 系列 1元预订<br>享价值 <span class="bf-val">¥1,688</span> 福袋</p></div>
+            <div class="bf-card anim"><span class="bf-icon">🎧</span><h4>组合优惠</h4><p>购机搭配耳机立减<br>头戴耳机优惠 <span class="bf-val">¥50</span></p></div>
         </div>
+    </div>
+</section>
 
-        <!-- iQOO 15 -->
-        <div class="product-card animate-on-scroll" style="transition-delay:0.1s">
-            <div class="icon-wrap">⚡</div>
-            <span class="tag tag-hot">热销爆款</span>
-            <h3>iQOO 15</h3>
-            <div class="price">国补到手 <strong>¥3,800</strong> 起</div>
-            <p style="font-size:13px;color:rgba(255,255,255,0.45)">骁龙8至尊版 · 2K 144Hz · 6150mAh+120W · 全焦段影像</p>
-            <div class="benefits">
-                <span class="highlight-tag">24期免息</span>
-                <span>以旧换新补贴</span>
-                <span>国补优惠</span>
-            </div>
+<!-- ===== X SERIES ===== -->
+<section class="bg1" id="x-series">
+    <div class="series-header anim"><div class="icon" style="background:linear-gradient(135deg,#4285f4,#2848c8)">📷</div><h2>vivo X 系列 · 影像旗舰</h2></div>
+    <p class="section-sub anim">蔡司专业影像 · 第五代骁龙8 · 顶级屏幕 · 全场景旗舰</p>
+    <div class="prod-grid">
+
+    <!-- X300 Ultra -->
+    <div class="pcard anim eco-x">
+        <div class="pimg"><span class="product-placeholder">📸</span><span class="ptag ptag-flag">专业V单</span></div>
+        <div class="pbody">
+            <span class="cat-label cat-x">X系列 · 旗舰</span>
+            <h3>vivo X300 Ultra</h3>
+            <div class="psub">专业V单 · 蔡司大师镜头群 · 400mm巨炮</div>
+            <div class="sell-point"><span>蔡司3+2镜头群</span><span>400mm增距镜</span><span>ACES专业流程</span><span>6600mAh</span></div>
+            <table class="price-table">
+                <tr><th>版本</th><th>零售价</th><th>国补价</th></tr>
+                <tr><td>12+256GB</td><td><span class="orig">¥6,999</span></td><td class="gbt">¥5,999</td></tr>
+                <tr><td>12+512GB</td><td><span class="orig">¥7,499</span></td><td class="gbt">¥6,499</td></tr>
+                <tr><td>16+512GB</td><td><span class="orig">¥7,999</span></td><td class="gbt">¥6,999</td></tr>
+                <tr><td>16+1TB 卫星通信</td><td><span class="orig">¥8,999</span></td><td class="gbt">¥7,999</td></tr>
+                <tr><td>16+1TB 摄影师套装</td><td><span class="orig">¥11,999</span></td><td class="gbt">—</td></tr>
+            </table>
         </div>
+    </div>
 
-        <!-- iQOO 15T -->
-        <div class="product-card animate-on-scroll" style="transition-delay:0.15s">
-            <div class="icon-wrap">🔋</div>
-            <span class="tag tag-hot">618热卖</span>
-            <h3>iQOO 15T</h3>
-            <div class="price">618大促 <strong>¥3,799</strong> 起 <span style="color:rgba(255,255,255,0.3)">| 立省 ¥300</span></div>
-            <p style="font-size:13px;color:rgba(255,255,255,0.45)">天玑9500 Monster · 8000mAh · 100W快充 · 2亿像素</p>
-            <div class="benefits">
-                <span class="highlight-tag">24期免息</span>
-                <span class="highlight-tag">618直降¥300</span>
-                <span>以旧换新</span>
-            </div>
-        </div>
-
-        <!-- vivo S60 -->
-        <div class="product-card animate-on-scroll" style="transition-delay:0.2s">
-            <div class="icon-wrap">📸</div>
-            <span class="tag tag-new">新品首发</span>
-            <h3>vivo S60 / S60 元气版</h3>
-            <div class="price">以旧换新至高补贴 <strong>¥1,200</strong></div>
-            <p style="font-size:13px;color:rgba(255,255,255,0.45)">5月29日发布 · 1元预订享¥1688福袋</p>
-            <div class="benefits">
-                <span class="highlight-tag">12期免息</span>
-                <span class="highlight-tag">以旧换新至高¥1,200</span>
-                <span>1元预订福袋</span>
-            </div>
-        </div>
-
-        <!-- vivo X300s -->
-        <div class="product-card animate-on-scroll" style="transition-delay:0.25s">
-            <div class="icon-wrap">✨</div>
-            <span class="tag tag-new">新品热销</span>
+    <!-- X300s -->
+    <div class="pcard anim eco-x">
+        <div class="pimg"><span class="product-placeholder">📱</span><span class="ptag ptag-new">热卖新品</span></div>
+        <div class="pbody">
+            <span class="cat-label cat-x">X系列 · 全能</span>
             <h3>vivo X300s</h3>
-            <div class="price">国补价 <strong>¥4,499</strong> 起</div>
-            <p style="font-size:13px;color:rgba(255,255,255,0.45)">影像旗舰 · 以旧换新至高补贴¥1,200</p>
-            <div class="benefits">
-                <span class="highlight-tag">12期免息</span>
-                <span class="highlight-tag">以旧换新至高¥1,200</span>
-                <span>学生优惠</span>
-            </div>
+            <div class="psub">超能小V单 · 天玑9500 · 7100mAh</div>
+            <div class="sell-point"><span>蔡司2亿主摄</span><span>APO超级长焦</span><span>7100mAh</span><span>超声波指纹</span></div>
+            <table class="price-table">
+                <tr><th>版本</th><th>零售价</th><th>国补价</th></tr>
+                <tr><td>12+256GB</td><td><span class="orig">¥4,999</span></td><td class="gbt">¥4,499</td></tr>
+                <tr><td>12+512GB</td><td><span class="orig">¥5,499</span></td><td class="gbt">¥4,999</td></tr>
+                <tr><td>16+512GB</td><td><span class="orig">¥5,999</span></td><td class="gbt">¥5,499</td></tr>
+                <tr><td>16+1TB</td><td><span class="orig">¥6,999</span></td><td class="gbt">¥6,499</td></tr>
+            </table>
         </div>
+    </div>
+
+    <!-- X300 -->
+    <div class="pcard anim eco-x">
+        <div class="pimg"><span class="product-placeholder">📱</span><span class="ptag ptag-new">新品</span></div>
+        <div class="pbody">
+            <span class="cat-label cat-x">X系列 · 小屏</span>
+            <h3>vivo X300</h3>
+            <div class="psub">小屏全能旗舰 · 一手掌控</div>
+            <div class="sell-point"><span>小屏旗舰</span><span>全能影像</span><span>轻薄手感</span></div>
+            <table class="price-table">
+                <tr><th>版本</th><th>零售价</th><th>国补价</th></tr>
+                <tr><td>12+256GB</td><td><span class="orig">¥3,999</span></td><td class="gbt">¥3,499</td></tr>
+                <tr><td>12+512GB</td><td><span class="orig">¥4,499</span></td><td class="gbt">¥3,999</td></tr>
+                <tr><td>16+512GB</td><td><span class="orig">¥4,999</span></td><td class="gbt">¥4,499</td></tr>
+            </table>
+        </div>
+    </div>
+
+    </div>
+    <div style="text-align:center;margin-top:20px;font-size:13px;color:rgba(255,255,255,0.35)">🎓 学生/教师购X系列加赠充电宝 + 碎屏保 · 以旧换新至高补贴¥1,200 · 12期免息</div>
+</section>
+
+<!-- ===== S60 SERIES ===== -->
+<section class="bg2" id="s-series">
+    <div class="series-header anim"><div class="icon" style="background:linear-gradient(135deg,#ff6b35,#ff3264)">✨</div><h2>vivo S60 系列 · 人像专家</h2></div>
+    <p class="section-sub anim">4K Live影像 · 7200mAh蓝海电池 · 超薄美学 · IP68防水</p>
+    <div class="prod-grid">
+
+    <!-- S60 标准版 -->
+    <div class="pcard anim eco-s">
+        <div class="pimg"><span class="product-placeholder">📱</span><span class="ptag ptag-new">新品首发</span></div>
+        <div class="pbody">
+            <span class="cat-label cat-s">S60系列</span>
+            <h3>vivo S60 标准版</h3>
+            <div class="psub">第三代骁龙8s · 50MP潜望长焦 · 7200mAh · 90W</div>
+            <div class="sell-point"><span>4K星光Live</span><span>50MP潜望长焦</span><span>7200mAh</span><span>IP68+IP69</span></div>
+            <table class="price-table">
+                <tr><th>版本</th><th>零售价</th><th>国补价</th></tr>
+                <tr><td>12+256GB</td><td><span class="orig">¥3,599</span></td><td class="gbt">¥3,099</td></tr>
+                <tr><td>12+512GB</td><td><span class="orig">¥3,999</span></td><td class="gbt">¥3,499</td></tr>
+                <tr><td>16+512GB</td><td><span class="orig">¥4,399</span></td><td class="gbt">¥3,899</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- S60 元气版 -->
+    <div class="pcard anim eco-s">
+        <div class="pimg"><span class="product-placeholder">📱</span><span class="ptag ptag-new">新品首发</span></div>
+        <div class="pbody">
+            <span class="cat-label cat-s">S60系列</span>
+            <h3>vivo S60 元气版</h3>
+            <div class="psub">天玑7500满血版 · 7200mAh · 90W · 7.79mm超薄</div>
+            <div class="sell-point"><span>4K Live</span><span>7.79mm超薄</span><span>7200mAh</span><span>超高性价比</span></div>
+            <table class="price-table">
+                <tr><th>版本</th><th>零售价</th><th>国补价</th></tr>
+                <tr><td>8+256GB</td><td><span class="orig">¥2,899</span></td><td class="gbt">¥2,464</td></tr>
+                <tr><td>12+256GB</td><td><span class="orig">¥3,199</span></td><td class="gbt">¥2,719</td></tr>
+                <tr><td>12+512GB</td><td><span class="orig">¥3,499</span></td><td class="gbt">¥2,999</td></tr>
+            </table>
+        </div>
+    </div>
+
+    </div>
+    <div style="text-align:center;margin-top:20px;font-size:13px;color:rgba(255,255,255,0.35)">🎁 1元预订享¥1,688福袋（含A5耳机+碎屏宝/电池宝） · 以旧换新至高¥1,200 · 12期免息</div>
+</section>
+
+<!-- ===== iQOO 数字系列 ===== -->
+<section class="bg1" id="iqoo-d">
+    <div class="series-header anim"><div class="icon" style="background:linear-gradient(135deg,#8a2be2,#3c1478)">🚀</div><h2>iQOO 数字系列 · 性能旗舰</h2></div>
+    <p class="section-sub anim">顶级芯片 · 2K三星屏 · 超级闪充 · 专业电竞体验</p>
+    <div class="prod-grid">
+
+    <!-- iQOO 15 Ultra -->
+    <div class="pcard anim eco-iqoo-d">
+        <div class="pimg"><span class="product-placeholder">🏎️</span><span class="ptag ptag-flag">旗舰之王</span></div>
+        <div class="pbody">
+            <span class="cat-label cat-iqoo">iQOO数字 · 旗舰</span>
+            <h3>iQOO 15 Ultra</h3>
+            <div class="psub">骁龙8 Gen5 · 主动散热 · 游戏肩键 · 7400mAh</div>
+            <div class="sell-point"><span>主动散热风扇</span><span>游戏肩键</span><span>7400mAh</span><span>40W无线充</span></div>
+            <table class="price-table">
+                <tr><th>版本</th><th>零售价</th><th>国补价</th></tr>
+                <tr><td>16+256GB</td><td><span class="orig">¥5,699</span></td><td class="gbt">¥4,999</td></tr>
+                <tr><td>16+512GB</td><td><span class="orig">¥5,999</span></td><td class="gbt">¥5,499</td></tr>
+                <tr><td>16+1TB</td><td><span class="orig">¥6,999</span></td><td class="gbt">¥6,499</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- iQOO 15 -->
+    <div class="pcard anim eco-iqoo-d">
+        <div class="pimg"><span class="product-placeholder">⚡</span><span class="ptag ptag-hot">热销爆款</span></div>
+        <div class="pbody">
+            <span class="cat-label cat-iqoo">iQOO数字 · 全能</span>
+            <h3>iQOO 15</h3>
+            <div class="psub">骁龙8 Gen5 · 全焦段三摄 · 7000mAh · 40W无线充</div>
+            <div class="sell-point"><span>骁龙8 Gen5</span><span>潜望长焦</span><span>7000mAh</span><span>40W无线充</span></div>
+            <table class="price-table">
+                <tr><th>版本</th><th>零售价</th><th>国补价</th></tr>
+                <tr><td>12+256GB</td><td><span class="orig">¥3,999</span></td><td class="gbt">¥3,499</td></tr>
+                <tr><td>16+512GB</td><td><span class="orig">¥4,999</span></td><td class="gbt">¥4,499</td></tr>
+                <tr><td>16+1TB</td><td><span class="orig">¥5,499</span></td><td class="gbt">¥4,999</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <!-- iQOO 15T -->
+    <div class="pcard anim eco-iqoo-d">
+        <div class="pimg"><span class="product-placeholder">🔋</span><span class="ptag ptag-hot">618热卖</span></div>
+        <div class="pbody">
+            <span class="cat-label cat-iqoo">iQOO数字 · 续航</span>
+            <h3>iQOO 15T</h3>
+            <div class="psub">天玑9500 Monster · 8000mAh · 2亿主摄</div>
+            <div class="sell-point"><span>天玑9500 Monster</span><span>8000mAh</span><span>2亿主摄</span><span>超高性价比</span></div>
+            <table class="price-table">
+                <tr><th>版本</th><th>零售价</th><th>国补价</th></tr>
+                <tr><td>12+256GB</td><td><span class="orig">¥3,799</span></td><td class="gbt">¥2,879</td></tr>
+                <tr><td>16+256GB</td><td><span class="orig">¥4,199</span></td><td class="gbt">¥3,279</td></tr>
+                <tr><td>12+512GB</td><td><span class="orig">¥4,499</span></td><td class="gbt">¥3,579</td></tr>
+                <tr><td>16+512GB</td><td><span class="orig">¥4,899</span></td><td class="gbt">¥3,749</td></tr>
+                <tr><td>16+1TB</td><td><span class="orig">¥5,699</span></td><td class="gbt">¥4,549</td></tr>
+            </table>
+        </div>
+    </div>
+
+    </div>
+    <div style="text-align:center;margin-top:20px;font-size:13px;color:rgba(255,255,255,0.35)">💳 全系24期免息 · 以旧换新补贴 · 电竞礼包赠品 · 国补价</div>
+</section>
+
+<!-- ===== iQOO Neo 系列 ===== -->
+<section class="bg2" id="iqoo-n">
+    <div class="series-header anim"><div class="icon" style="background:linear-gradient(135deg,#00c896,#009664)">🎮</div><h2>iQOO Neo 系列 · 性价比战神</h2></div>
+    <p class="section-sub anim">骁龙8至尊版下放 · 2K 144Hz珠峰屏 · 7500mAh超大电池</p>
+    <div class="prod-grid">
+
+    <div class="pcard anim eco-iqoo-n">
+        <div class="pimg"><span class="product-placeholder">🎮</span><span class="ptag ptag-best">性价比之王</span></div>
+        <div class="pbody">
+            <span class="cat-label cat-iqoo">Neo系列</span>
+            <h3>iQOO Neo11</h3>
+            <div class="psub">骁龙8至尊版+Q2 · 2K 144Hz · 7500mAh</div>
+            <div class="sell-point"><span>骁龙8至尊版</span><span>2K珠峰直屏</span><span>7500mAh</span><span>超声波指纹</span></div>
+            <table class="price-table">
+                <tr><th>版本</th><th>零售价</th><th>国补价</th></tr>
+                <tr><td>12+256GB</td><td><span class="orig">¥2,599</span></td><td class="gbt">¥2,208</td></tr>
+                <tr><td>12+512GB</td><td><span class="orig">¥3,599</span></td><td class="gbt">¥3,099</td></tr>
+                <tr><td>16+512GB</td><td><span class="orig">¥3,899</span></td><td class="gbt">¥3,399</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="pcard anim eco-iqoo-n">
+        <div class="pimg"><span class="product-placeholder">🎮</span><span class="ptag ptag-hot">热门</span></div>
+        <div class="pbody">
+            <span class="cat-label cat-iqoo">Neo系列</span>
+            <h3>iQOO Neo10 Pro+</h3>
+            <div class="psub">骁龙8至尊版/天玑9400 · 2K珠峰屏 · 6100mAh</div>
+            <div class="sell-point"><span>骁龙8至尊版</span><span>120W闪充</span><span>6100mAh</span></div>
+            <table class="price-table">
+                <tr><th>版本</th><th>零售价</th><th>国补价</th></tr>
+                <tr><td>12+256GB</td><td><span class="orig">¥2,999</span></td><td class="gbt">¥2,549</td></tr>
+                <tr><td>12+512GB</td><td><span class="orig">¥3,299</span></td><td class="gbt">¥2,799</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="pcard anim eco-iqoo-n">
+        <div class="pimg"><span class="product-placeholder">🎮</span></div>
+        <div class="pbody">
+            <span class="cat-label cat-iqoo">Neo系列</span>
+            <h3>iQOO Neo10</h3>
+            <div class="psub">骁龙8 Gen3 · 1.5K 144Hz · 6100mAh</div>
+            <div class="sell-point"><span>骁龙8 Gen3</span><span>120W闪充</span><span>入门电竞首选</span></div>
+            <table class="price-table">
+                <tr><th>版本</th><th>零售价</th><th>国补价</th></tr>
+                <tr><td>12+256GB</td><td><span class="orig">¥2,299</span></td><td class="gbt">¥1,999</td></tr>
+                <tr><td>12+512GB</td><td><span class="orig">¥2,699</span></td><td class="gbt">¥2,399</td></tr>
+            </table>
+        </div>
+    </div>
+
+    </div>
+    <div style="text-align:center;margin-top:20px;font-size:13px;color:rgba(255,255,255,0.35)">💳 24期免息 · 以旧换新补贴 · 适合学生党/游戏玩家</div>
+</section>
+
+<!-- ===== iQOO Z 系列 ===== -->
+<section class="bg1" id="iqoo-z">
+    <div class="series-header anim"><div class="icon" style="background:linear-gradient(135deg,#ffb400,#c87800)">🔋</div><h2>iQOO Z 系列 · 续航战神</h2></div>
+    <p class="section-sub anim">全系6000mAh+超大电池 · 千元性价比之王 · 百元到两千元全覆盖</p>
+    <div class="prod-grid">
+
+    <div class="pcard anim eco-iqoo-z">
+        <div class="pimg"><span class="product-placeholder">🔋</span><span class="ptag ptag-best">续航之王</span></div>
+        <div class="pbody">
+            <span class="cat-label cat-iqoo">Z系列 · 性能</span>
+            <h3>iQOO Z11 Turbo</h3>
+            <div class="psub">第五代骁龙8+Q2 · 7600mAh · IP68</div>
+            <div class="sell-point"><span>骁龙8 Gen5</span><span>7600mAh</span><span>IP68防水</span><span>超声波指纹</span></div>
+            <table class="price-table">
+                <tr><th>版本</th><th>零售价</th><th>国补价</th></tr>
+                <tr><td>12+256GB</td><td><span class="orig">¥2,399</span></td><td class="gbt">¥2,039</td></tr>
+                <tr><td>12+512GB</td><td><span class="orig">¥2,899</span></td><td class="gbt">¥2,499</td></tr>
+                <tr><td>16+1TB</td><td><span class="orig">¥3,599</span></td><td class="gbt">¥3,099</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="pcard anim eco-iqoo-z">
+        <div class="pimg"><span class="product-placeholder">🔋</span><span class="ptag ptag-hot">热销</span></div>
+        <div class="pbody">
+            <span class="cat-label cat-iqoo">Z系列</span>
+            <h3>iQOO Z11 Turbo+</h3>
+            <div class="psub">天玑9400+ · 6000mAh · 80W</div>
+            <div class="sell-point"><span>天玑9400+</span><span>1.5K护眼屏</span></div>
+            <table class="price-table">
+                <tr><th>版本</th><th>零售价</th><th>国补价</th></tr>
+                <tr><td>12+256GB</td><td><span class="orig">¥2,199</span></td><td class="gbt">¥1,969</td></tr>
+                <tr><td>16+512GB</td><td><span class="orig">¥2,699</span></td><td class="gbt">¥2,399</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="pcard anim eco-iqoo-z">
+        <div class="pimg"><span class="product-placeholder">🔋</span></div>
+        <div class="pbody">
+            <span class="cat-label cat-iqoo">Z系列</span>
+            <h3>iQOO Z11</h3>
+            <div class="psub">骁龙7系 · 6000mAh</div>
+            <div class="sell-point"><span>6000mAh</span><span>高刷护眼屏</span><span>千元首选</span></div>
+            <table class="price-table">
+                <tr><th>版本</th><th>零售价</th><th>国补价</th></tr>
+                <tr><td>8+256GB</td><td><span class="orig">¥1,599</span></td><td class="gbt">¥1,359</td></tr>
+                <tr><td>12+256GB</td><td><span class="orig">¥1,799</span></td><td class="gbt">¥1,529</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="pcard anim eco-iqoo-z">
+        <div class="pimg"><span class="product-placeholder">🔋</span><span class="ptag ptag-best">百元战神</span></div>
+        <div class="pbody">
+            <span class="cat-label cat-iqoo">Z系列</span>
+            <h3>iQOO Z10 Turbo Pro</h3>
+            <div class="psub">骁龙8s · 7000mAh级</div>
+            <div class="sell-point"><span>7000mAh</span><span>骁龙8s</span><span>超高性价比</span></div>
+            <table class="price-table">
+                <tr><th>版本</th><th>零售价</th><th>国补价</th></tr>
+                <tr><td>12+256GB</td><td><span class="orig">¥1,899</span></td><td class="gbt">¥1,614</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="pcard anim eco-iqoo-z">
+        <div class="pimg"><span class="product-placeholder">🔋</span><span class="ptag ptag-best">百元机</span></div>
+        <div class="pbody">
+            <span class="cat-label cat-iqoo">Z系列 · 入门</span>
+            <h3>iQOO Z11x / Z10x</h3>
+            <div class="psub">天玑7300 · 6500mAh</div>
+            <div class="sell-point"><span>6500mAh</span><span>百元价位</span><span>备用机首选</span></div>
+            <table class="price-table">
+                <tr><th>版本</th><th>零售价</th><th>国补价</th></tr>
+                <tr><td>Z11x 8+128GB</td><td><span class="orig">¥1,299</span></td><td class="gbt">¥1,104</td></tr>
+                <tr><td>Z10x 8+128GB</td><td><span class="orig">¥1,099</span></td><td class="gbt">¥933</td></tr>
+            </table>
+        </div>
+    </div>
+
+    </div>
+    <div style="text-align:center;margin-top:20px;font-size:13px;color:rgba(255,255,255,0.35)">💳 12期免息 · 以旧换新补贴 · 全系大电池 · 长辈/备用机首选</div>
+</section>
+
+<!-- ===== Y600 Pro ===== -->
+<section class="bg2" id="y-series">
+    <div class="series-header anim"><div class="icon" style="background:linear-gradient(135deg,#0096ff,#0064c8)">🔋</div><h2>vivo Y600 Pro · 续航巨无霸</h2></div>
+    <p class="section-sub anim">10200mAh超大电池 · IP68防水 · 磐石抗摔</p>
+    <div class="prod-grid">
+    <div class="pcard anim eco-y" style="max-width:380px;margin:0 auto">
+        <div class="pimg"><span class="product-placeholder">🔋</span><span class="ptag ptag-best">续航巨无霸</span></div>
+        <div class="pbody">
+            <h3>vivo Y600 Pro</h3>
+            <div class="psub">10200mAh电池 · 天玑7300e · 6.83英寸1.5K屏 · IP68+IP69</div>
+            <div class="sell-point"><span>10200mAh</span><span>-20℃耐低温</span><span>IP68防水</span><span>磐石抗摔</span><span>红外遥控</span></div>
+            <table class="price-table">
+                <tr><th>版本</th><th>零售价</th><th>国补价</th></tr>
+                <tr><td>8+128GB</td><td><span class="orig">¥1,999</span></td><td class="gbt">¥1,699</td></tr>
+                <tr><td>8+256GB</td><td><span class="orig">¥2,299</span></td><td class="gbt">¥1,954</td></tr>
+                <tr><td>8+512GB</td><td><span class="orig">¥2,599</span></td><td class="gbt">¥2,209</td></tr>
+                <tr><td>12+256GB</td><td><span class="orig">¥2,599</span></td><td class="gbt">¥2,209</td></tr>
+                <tr><td>12+512GB</td><td><span class="orig">¥2,899</span></td><td class="gbt">¥2,464</td></tr>
+            </table>
+        </div>
+    </div>
+    </div>
+    <div style="text-align:center;margin-top:20px;font-size:13px;color:rgba(255,255,255,0.35)">🎓 学生/教师教育优惠 · 6期免息 · 以旧换新补贴</div>
+</section>
+
+<!-- ===== PAD ===== -->
+<section class="bg1" id="pad">
+    <div class="series-header anim"><div class="icon" style="background:linear-gradient(135deg,#64c8ff,#3264c8)">📟</div><h2>vivo 平板系列 · 创作利器</h2></div>
+    <p class="section-sub anim">4K原彩屏 · 第五代骁龙8 · 13000mAh · PC级生态</p>
+    <div class="prod-grid">
+
+    <div class="pcard anim eco-pad">
+        <div class="pimg"><span class="product-placeholder">📟</span><span class="ptag ptag-flag">旗舰平板</span></div>
+        <div class="pbody">
+            <h3>vivo Pad6 Pro</h3>
+            <div class="psub">13.2" 4K 144Hz · 骁龙8 Gen5 · 13000mAh</div>
+            <div class="sell-point"><span>4K原彩屏</span><span>骁龙8 Gen5</span><span>13000mAh</span><span>8扬声器</span><span>PC级WPS</span></div>
+            <table class="price-table">
+                <tr><th>版本</th><th>零售价</th><th>国补价</th></tr>
+                <tr><td>8+256GB</td><td><span class="orig">¥4,499</span></td><td class="gbt">¥3,799</td></tr>
+                <tr><td>12+256GB</td><td><span class="orig">¥4,999</span></td><td class="gbt">¥3,999</td></tr>
+                <tr><td>12+512GB</td><td><span class="orig">¥5,799</span></td><td class="gbt">¥4,799</td></tr>
+                <tr><td>16+512GB</td><td><span class="orig">¥6,699</span></td><td class="gbt">—</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="pcard anim eco-pad">
+        <div class="pimg"><span class="product-placeholder">📟</span><span class="ptag ptag-hot">性价比之选</span></div>
+        <div class="pbody">
+            <h3>vivo Pad5 Pro</h3>
+            <div class="psub">13" 3.1K 144Hz · 天玑9400 · 12050mAh</div>
+            <div class="sell-point"><span>3.1K屏</span><span>天玑9400</span><span>12050mAh</span><span>8扬声器</span></div>
+            <table class="price-table">
+                <tr><th>版本</th><th>零售价</th><th>国补价</th></tr>
+                <tr><td>8+256GB</td><td><span class="orig">¥3,599</span></td><td class="gbt">¥3,099</td></tr>
+                <tr><td>12+512GB</td><td><span class="orig">¥4,599</span></td><td class="gbt">¥3,999</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="pcard anim eco-pad">
+        <div class="pimg"><span class="product-placeholder">📟</span></div>
+        <div class="pbody">
+            <h3>vivo Pad5</h3>
+            <div class="psub">12.1" 2.8K · 天玑9300+ · 44W</div>
+            <div class="sell-point"><span>2.8K护眼屏</span><span>天玑9300+</span><span>轻办公首选</span></div>
+            <table class="price-table">
+                <tr><th>版本</th><th>零售价</th><th>国补价</th></tr>
+                <tr><td>8+256GB</td><td><span class="orig">¥2,599</span></td><td class="gbt">¥2,299</td></tr>
+                <tr><td>12+512GB</td><td><span class="orig">¥3,299</span></td><td class="gbt">¥2,899</td></tr>
+            </table>
+        </div>
+    </div>
+
+    </div>
+    <div style="text-align:center;margin-top:20px;font-size:13px;color:rgba(255,255,255,0.35)">🎓 教育优惠加赠¥399配件券 · 以旧换新补贴 · 12期免息</div>
+</section>
+
+<!-- ===== WATCH ===== -->
+<section class="bg2" id="watch">
+    <div class="series-header anim"><div class="icon" style="background:linear-gradient(135deg,#32c8c8,#009696)">⌚</div><h2>vivo 手表 · 智能穿戴</h2></div>
+    <p class="section-sub anim">全天候健康监测 · 独立GPS · 超长续航 · eSIM独立通信</p>
+    <div class="prod-grid">
+
+    <div class="pcard anim eco-watch" style="max-width:380px;margin:0 auto">
+        <div class="pimg"><span class="product-placeholder">⌚</span><span class="ptag ptag-new">新品</span></div>
+        <div class="pbody">
+            <h3>vivo WATCH GT 2</h3>
+            <div class="psub">2.07" AMOLED · 33天续航 · 100+运动模式 · AI运动教练</div>
+            <div class="sell-point"><span>2.07"大屏</span><span>33天续航</span><span>AI运动教练</span><span>NFC</span><span>独立GPS</span></div>
+            <table class="price-table">
+                <tr><th>版本</th><th>零售价</th><th>国补价</th></tr>
+                <tr><td>蓝牙版</td><td><span class="orig">¥549</span></td><td class="gbt">¥466</td></tr>
+                <tr><td>eSIM版</td><td><span class="orig">¥699</span></td><td class="gbt">¥594</td></tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="pcard anim eco-watch" style="max-width:380px;margin:0 auto">
+        <div class="pimg"><span class="product-placeholder">⌚</span></div>
+        <div class="pbody">
+            <h3>vivo WATCH 5</h3>
+            <div class="psub">1.43" AMOLED · 32g超轻 · 22天续航 · 30秒心脏评估</div>
+            <div class="sell-point"><span>32g超轻</span><span>eSIM独立通信</span><span>心脏评估</span></div>
+            <table class="price-table">
+                <tr><th>版本</th><th>零售价</th><th>国补价</th></tr>
+                <tr><td>蓝牙版</td><td><span class="orig">¥799</span></td><td class="gbt">¥699</td></tr>
+                <tr><td>eSIM版</td><td><span class="orig">¥999</span></td><td class="gbt">¥849</td></tr>
+            </table>
+        </div>
+    </div>
+
     </div>
 </section>
 
-<!-- ========== Benefits Overview ========== -->
-<section class="benefits-bg" id="benefits">
-    <h2 class="section-title animate-on-scroll">🎁 暑期专属权益</h2>
-    <p class="section-sub animate-on-scroll">多重好礼叠加，让你购机更超值</p>
+<!-- ===== AUDIO ===== -->
+<section class="bg1" id="audio">
+    <div class="series-header anim"><div class="icon" style="background:linear-gradient(135deg,#c864ff,#9632c8)">🎧</div><h2>vivo 音频 · 声学旗舰</h2></div>
+    <p class="section-sub anim">头戴降噪耳机 · 真无线耳机 · Hi-Fi音质 · 智慧互联</p>
+    <div class="prod-grid">
 
-    <div class="benefits-grid">
-        <div class="benefit-card animate-on-scroll" style="transition-delay:0.05s">
-            <span class="emoji-icon">💳</span>
-            <h4>分期免息</h4>
-            <p>iQOO 系列支持最高 <strong style="color:#ff6b35">24期免息</strong>，vivo S/X 系列支持最高 <strong style="color:#ff6b35">12期免息</strong>，月付无压力</p>
-        </div>
-        <div class="benefit-card animate-on-scroll" style="transition-delay:0.1s">
-            <span class="emoji-icon">🔄</span>
-            <h4>以旧换新</h4>
-            <p>旧机回收 + 额外补贴，vivo S60 / X300s <strong style="color:#ff6b35">至高补贴 ¥1,200</strong>，轻松升级</p>
-        </div>
-        <div class="benefit-card animate-on-scroll" style="transition-delay:0.15s">
-            <span class="emoji-icon">🏛️</span>
-            <h4>国家补贴</h4>
-            <p>多款机型享受国补价，iQOO 15 Ultra 国补到手 <strong style="color:#ff6b35">¥4,999</strong> 起，至高优惠 ¥1,300</p>
-        </div>
-        <div class="benefit-card animate-on-scroll" style="transition-delay:0.2s">
-            <span class="emoji-icon">🎓</span>
-            <h4>学生 / 教师专享</h4>
-            <p>教育优惠专属价格，X300s / Y600 Pro / Pad6 Pro 等机型参与，凭相关证件享受</p>
-        </div>
-        <div class="benefit-card animate-on-scroll" style="transition-delay:0.25s">
-            <span class="emoji-icon">🎁</span>
-            <h4>新品预订礼</h4>
-            <p>vivo S60 系列 <strong style="color:#ff6b35">1元预订</strong> 即享价值 ¥1,688 福袋，数量有限先到先得</p>
-        </div>
-        <div class="benefit-card animate-on-scroll" style="transition-delay:0.3s">
-            <span class="emoji-icon">🛡️</span>
-            <h4>官方保障</h4>
-            <p>7天无理由退货 · 30天换货 · 1年全国联保 · 顺丰包邮 · 线上线下同价</p>
+    <div class="pcard anim eco-audio" style="max-width:380px;margin:0 auto">
+        <div class="pimg"><span class="product-placeholder">🎧</span><span class="ptag ptag-new">新品首销</span></div>
+        <div class="pbody">
+            <h3>vivo 头戴降噪耳机</h3>
+            <div class="psub">首款头戴 · 58dB降噪 · 75h续航 · LDAC · 三设备切换</div>
+            <div class="sell-point"><span>58dB降噪</span><span>75h续航</span><span>238g超轻</span><span>Hi-Res双金标</span><span>蓝牙5.4</span></div>
+            <table class="price-table">
+                <tr><th>颜色</th><th>零售价</th><th>购机搭配价</th></tr>
+                <tr><td>云雾白 / 微风紫</td><td class="gbt">¥499</td><td class="gbt">¥449</td></tr>
+            </table>
         </div>
     </div>
+
+    <div class="pcard anim eco-audio" style="max-width:380px;margin:0 auto">
+        <div class="pimg"><span class="product-placeholder">🎧</span></div>
+        <div class="pbody">
+            <h3>vivo TWS 5</h3>
+            <div class="psub">真无线Hi-Fi · 主动降噪 · 超低延迟</div>
+            <div class="sell-point"><span>主动降噪</span><span>Hi-Fi音质</span><span>超低延迟</span><span>IP54防水</span></div>
+            <table class="price-table">
+                <tr><th>版本</th><th>零售价</th><th>购机搭配价</th></tr>
+                <tr><td>标准版</td><td class="gbt">¥399</td><td class="gbt">¥369</td></tr>
+            </table>
+        </div>
+    </div>
+
+    </div>
+    <div style="text-align:center;margin-top:20px;font-size:13px;color:rgba(255,255,255,0.35)">🎧 购机搭配耳机立减¥30-50 · 学生认证充电宝仅¥89</div>
 </section>
 
-<!-- ========== Comparison Table ========== -->
-<section class="products-bg" id="compare">
-    <h2 class="section-title animate-on-scroll">📊 权益对比总览</h2>
-    <p class="section-sub animate-on-scroll">一目了然，快速选择最适合你的购机方案</p>
+<!-- ===== FULL COMPARE TABLE ===== -->
+<section class="bg2" id="compare">
+    <h2 class="section-title anim">📊 全系权益对比</h2>
+    <p class="section-sub anim">一目了然，快速选择最适合你的购机方案</p>
 
-    <div class="table-wrap animate-on-scroll">
-        <table>
+    <div class="comp-wrap anim">
+        <table class="comp-table">
             <thead>
-                <tr>
-                    <th>机型</th>
-                    <th>分期免息</th>
-                    <th>以旧换新补贴</th>
-                    <th>国补价</th>
-                    <th>教育优惠</th>
-                    <th>其他福利</th>
-                </tr>
+                <tr><th style="min-width:120px">产品</th><th>分期免息</th><th>以旧换新</th><th>国补价</th><th>教育优惠</th><th>赠品/其他</th></tr>
             </thead>
             <tbody>
-                <tr>
-                    <td><strong>iQOO 15 Ultra</strong></td>
-                    <td><span class="check">✓</span> 24期</td>
-                    <td><span class="check">✓</span> 支持</td>
-                    <td><span class="val">¥4,999起</span></td>
-                    <td><span class="cross">—</span></td>
-                    <td>电竞礼包 · 主动散热</td>
-                </tr>
-                <tr>
-                    <td><strong>iQOO 15</strong></td>
-                    <td><span class="check">✓</span> 24期</td>
-                    <td><span class="check">✓</span> 支持</td>
-                    <td><span class="val">¥3,800起</span></td>
-                    <td><span class="cross">—</span></td>
-                    <td>全能均衡旗舰</td>
-                </tr>
-                <tr>
-                    <td><strong>iQOO 15T</strong></td>
-                    <td><span class="check">✓</span> 24期</td>
-                    <td><span class="check">✓</span> 支持</td>
-                    <td><span class="val">¥3,799起</span></td>
-                    <td><span class="cross">—</span></td>
-                    <td>618直降¥300</td>
-                </tr>
-                <tr>
-                    <td><strong>vivo S60</strong></td>
-                    <td><span class="check">✓</span> 12期</td>
-                    <td><span class="val">至高¥1,200</span></td>
-                    <td><span class="cross">—</span></td>
-                    <td><span class="cross">—</span></td>
-                    <td>1元预订¥1,688福袋</td>
-                </tr>
-                <tr>
-                    <td><strong>vivo S60 元气版</strong></td>
-                    <td><span class="check">✓</span> 12期</td>
-                    <td><span class="val">至高¥1,200</span></td>
-                    <td><span class="cross">—</span></td>
-                    <td><span class="cross">—</span></td>
-                    <td>1元预订福袋</td>
-                </tr>
-                <tr>
-                    <td><strong>vivo X300s</strong></td>
-                    <td><span class="check">✓</span> 12期</td>
-                    <td><span class="val">至高¥1,200</span></td>
-                    <td><span class="val">¥4,499起</span></td>
-                    <td><span class="check">✓</span> 支持</td>
-                    <td>影像旗舰</td>
-                </tr>
+                <tr class="series-group"><td colspan="6" style="text-align:left;padding:14px 12px 6px;color:#4285f4;font-weight:700;font-size:14px;border-bottom:none">📷 vivo X 系列</td></tr>
+                <tr><td>X300 Ultra</td><td>12期</td><td><span class="chk">✓</span> 支持</td><td><span class="amt">¥5,999起</span></td><td><span class="no">—</span></td><td>赠碎屏保</td></tr>
+                <tr><td>X300s</td><td>12期</td><td><span class="amt">至高¥1,200</span></td><td><span class="amt">¥4,499起</span></td><td><span class="chk">✓</span> 支持</td><td>学生送充电宝</td></tr>
+                <tr><td>X300</td><td>12期</td><td><span class="chk">✓</span> 支持</td><td><span class="amt">¥3,499起</span></td><td><span class="chk">✓</span> 支持</td><td>学生送充电宝</td></tr>
+                <tr class="series-group"><td colspan="6" style="text-align:left;padding:14px 12px 6px;color:#ff6b35;font-weight:700;font-size:14px;border-bottom:none">✨ vivo S60 系列</td></tr>
+                <tr><td>S60 标准版</td><td>12期</td><td><span class="amt">至高¥1,200</span></td><td><span class="amt">¥3,099起</span></td><td><span class="no">—</span></td><td>1元预订¥1,688福袋</td></tr>
+                <tr><td>S60 元气版</td><td>12期</td><td><span class="amt">至高¥1,200</span></td><td><span class="amt">¥2,464起</span></td><td><span class="no">—</span></td><td>1元预订送A5耳机</td></tr>
+                <tr class="series-group"><td colspan="6" style="text-align:left;padding:14px 12px 6px;color:#8a2be2;font-weight:700;font-size:14px;border-bottom:none">🚀 iQOO 数字系列</td></tr>
+                <tr><td>iQOO 15 Ultra</td><td><span class="amt">24期</span></td><td><span class="chk">✓</span> 支持</td><td><span class="amt">¥4,999起</span></td><td><span class="no">—</span></td><td>电竞礼包</td></tr>
+                <tr><td>iQOO 15</td><td><span class="amt">24期</span></td><td><span class="chk">✓</span> 支持</td><td><span class="amt">¥3,499起</span></td><td><span class="no">—</span></td><td>赠品牌周边</td></tr>
+                <tr><td>iQOO 15T</td><td><span class="amt">24期</span></td><td><span class="chk">✓</span> 支持</td><td><span class="amt">¥2,879起</span></td><td><span class="no">—</span></td><td>618特惠</td></tr>
+                <tr class="series-group"><td colspan="6" style="text-align:left;padding:14px 12px 6px;color:#00c896;font-weight:700;font-size:14px;border-bottom:none">🎮 iQOO Neo 系列</td></tr>
+                <tr><td>Neo11</td><td><span class="amt">24期</span></td><td><span class="chk">✓</span> 支持</td><td><span class="amt">¥2,208起</span></td><td><span class="no">—</span></td><td>学生党首选</td></tr>
+                <tr><td>Neo10 Pro+</td><td>12期</td><td><span class="chk">✓</span> 支持</td><td><span class="amt">¥2,549起</span></td><td><span class="no">—</span></td><td>赠手机壳</td></tr>
+                <tr><td>Neo10</td><td>12期</td><td><span class="chk">✓</span> 支持</td><td><span class="amt">¥1,999起</span></td><td><span class="no">—</span></td><td>入门电竞选</td></tr>
+                <tr class="series-group"><td colspan="6" style="text-align:left;padding:14px 12px 6px;color:#ffb400;font-weight:700;font-size:14px;border-bottom:none">🔋 iQOO Z 系列</td></tr>
+                <tr><td>Z11 Turbo</td><td>12期</td><td><span class="chk">✓</span> 支持</td><td><span class="amt">¥2,039起</span></td><td><span class="no">—</span></td><td>性价比战神</td></tr>
+                <tr><td>Z11 Turbo+</td><td>12期</td><td><span class="chk">✓</span> 支持</td><td><span class="amt">¥1,969起</span></td><td><span class="no">—</span></td><td>大电池长续航</td></tr>
+                <tr><td>Z11</td><td>6期</td><td><span class="chk">✓</span> 支持</td><td><span class="amt">¥1,359起</span></td><td><span class="no">—</span></td><td>千元首选</td></tr>
+                <tr><td>Z10 Turbo Pro</td><td>6期</td><td><span class="chk">✓</span> 支持</td><td><span class="amt">¥1,614起</span></td><td><span class="no">—</span></td><td>百元性能机</td></tr>
+                <tr><td>Z11x / Z10x</td><td>6期</td><td><span class="chk">✓</span> 支持</td><td><span class="amt">¥933起</span></td><td><span class="no">—</span></td><td>百元续航王</td></tr>
+                <tr class="series-group"><td colspan="6" style="text-align:left;padding:14px 12px 6px;color:#0096ff;font-weight:700;font-size:14px;border-bottom:none">🔋 Y 系列</td></tr>
+                <tr><td>Y600 Pro</td><td>6期</td><td><span class="chk">✓</span> 支持</td><td><span class="amt">¥1,699起</span></td><td><span class="chk">✓</span> 支持</td><td>10200mAh巨无霸</td></tr>
+                <tr class="series-group"><td colspan="6" style="text-align:left;padding:14px 12px 6px;color:#64c8ff;font-weight:700;font-size:14px;border-bottom:none">📟 平板系列</td></tr>
+                <tr><td>Pad6 Pro</td><td>12期</td><td><span class="chk">✓</span> 支持</td><td><span class="amt">¥3,799起</span></td><td><span class="chk">✓</span> 支持</td><td>赠¥399配件券</td></tr>
+                <tr><td>Pad5 Pro</td><td>12期</td><td><span class="chk">✓</span> 支持</td><td><span class="amt">¥3,099起</span></td><td><span class="chk">✓</span> 支持</td><td>教育优惠</td></tr>
+                <tr><td>Pad5</td><td>6期</td><td><span class="chk">✓</span> 支持</td><td><span class="amt">¥2,299起</span></td><td><span class="chk">✓</span> 支持</td><td>轻办公首选</td></tr>
+                <tr class="series-group"><td colspan="6" style="text-align:left;padding:14px 12px 6px;color:#32c8c8;font-weight:700;font-size:14px;border-bottom:none">⌚ 手表</td></tr>
+                <tr><td>WATCH GT 2</td><td>6期</td><td><span class="no">—</span></td><td><span class="amt">¥466起</span></td><td><span class="no">—</span></td><td>33天续航</td></tr>
+                <tr><td>WATCH 5</td><td>6期</td><td><span class="no">—</span></td><td><span class="amt">¥699起</span></td><td><span class="no">—</span></td><td>eSIM独立通信</td></tr>
+                <tr class="series-group"><td colspan="6" style="text-align:left;padding:14px 12px 6px;color:#c864ff;font-weight:700;font-size:14px;border-bottom:none">🎧 音频</td></tr>
+                <tr><td>头戴降噪耳机</td><td>6期</td><td><span class="no">—</span></td><td class="gbt" style="text-align:center">¥499</td><td><span class="no">—</span></td><td>购机搭配¥449</td></tr>
+                <tr><td>TWS 5</td><td>6期</td><td><span class="no">—</span></td><td class="gbt" style="text-align:center">¥399</td><td><span class="no">—</span></td><td>购机搭配¥369</td></tr>
+                <tr><td>33W自带线充电宝</td><td><span class="no">—</span></td><td><span class="no">—</span></td><td class="gbt" style="text-align:center">¥89</td><td><span class="chk">✓</span> 学生价</td><td>学生专享</td></tr>
             </tbody>
         </table>
     </div>
 </section>
 
-<!-- ========== Steps ========== -->
-<section class="steps-bg" id="steps">
-    <h2 class="section-title animate-on-scroll">📌 参与方式</h2>
-    <p class="section-sub animate-on-scroll">三步轻松享受暑期权益</p>
-
+<!-- ===== STEPS ===== -->
+<section class="bg1">
+    <h2 class="section-title anim">📌 参与方式</h2>
+    <p class="section-sub anim">三步轻松享受暑期权益</p>
     <div class="steps-grid">
-        <div class="step-card animate-on-scroll" style="transition-delay:0.05s">
-            <div class="step-num">1</div>
-            <h4>挑选机型</h4>
-            <p>在 vivo 官网 / 商城 App 或线下门店选择心仪机型</p>
-        </div>
-        <div class="step-card animate-on-scroll" style="transition-delay:0.1s">
-            <div class="step-num">2</div>
-            <h4>选择权益</h4>
-            <p>分期免息 / 以旧换新 / 教育优惠，多重权益可叠加使用</p>
-        </div>
-        <div class="step-card animate-on-scroll" style="transition-delay:0.15s">
-            <div class="step-num">3</div>
-            <h4>下单立享</h4>
-            <p>线上下单顺丰到家，线下门店即买即用，全国联保放心购</p>
-        </div>
+        <div class="step-card anim"><div class="step-num">1</div><h4>挑选产品</h4><p>在 vivo 官网/商城 App 或线下门店选择心仪产品</p></div>
+        <div class="step-card anim"><div class="step-num">2</div><h4>选择权益</h4><p>分期免息 / 以旧换新 / 教育优惠，多重可叠加</p></div>
+        <div class="step-card anim"><div class="step-num">3</div><h4>下单享礼</h4><p>线上下单顺丰包邮，线下门店即买即用</p></div>
     </div>
-
-    <div style="text-align:center;margin-top:48px">
-        <p style="color:rgba(255,255,255,0.4);font-size:14px">* 活动时间：即日起至 2026 年 8 月 31 日 · 具体活动细则以 vivo 官方公布为准</p>
-        <div style="margin-top:24px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
-            <a href="https://www.vivo.com.cn" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border-radius:60px;background:rgba(66,133,244,0.15);border:1px solid rgba(66,133,244,0.25);font-size:15px;transition:all 0.3s">🌐 访问 vivo 官网</a>
-            <a href="https://www.iqoo.com" target="_blank" style="display:inline-flex;align-items:center;gap:8px;padding:12px 28px;border-radius:60px;background:rgba(138,43,226,0.15);border:1px solid rgba(138,43,226,0.25);font-size:15px;transition:all 0.3s">🚀 访问 iQOO 官网</a>
+    <div style="text-align:center;margin-top:36px">
+        <p style="color:rgba(255,255,255,0.3);font-size:13px">* 活动时间：即日起至2026年8月31日 · 具体活动细则以vivo官方公布为准</p>
+        <div style="margin-top:20px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+            <a href="https://www.vivo.com.cn" target="_blank" style="padding:12px 28px;border-radius:60px;background:rgba(66,133,244,0.15);border:1px solid rgba(66,133,244,0.25);font-size:14px;transition:all 0.3s">🌐 vivo 官网</a>
+            <a href="https://www.iqoo.com" target="_blank" style="padding:12px 28px;border-radius:60px;background:rgba(138,43,226,0.15);border:1px solid rgba(138,43,226,0.25);font-size:14px;transition:all 0.3s">🚀 iQOO 官网</a>
         </div>
     </div>
 </section>
-
-<!-- ========== Product Details ========== -->
-<section class="benefits-bg" id="details">
-    <h2 class="section-title animate-on-scroll">🔍 产品系列详解</h2>
-    <p class="section-sub animate-on-scroll">深入了解各系列的核心优势与专属权益</p>
-
-    <div class="product-detail-grid">
-        <div class="detail-card animate-on-scroll" style="transition-delay:0.05s">
-            <div class="product-line">iQOO 数字系列</div>
-            <h3>性能旗舰 · 电竞巅峰</h3>
-            <p class="desc">专为追求极致性能的用户打造，顶级芯片 + 高刷屏 + 超级闪充，游戏体验拉满。</p>
-            <ul class="detail-benefits">
-                <li>24期免息分期，月付低至 ¥159 起</li>
-                <li>以旧换新额外补贴，老机升值</li>
-                <li>国家补贴至高优惠 ¥1,300</li>
-                <li>选购旗舰款赠送电竞配件礼包</li>
-                <li>支持 iQOO 生态互联（平板 / 游戏手柄）</li>
-            </ul>
-        </div>
-
-        <div class="detail-card animate-on-scroll" style="transition-delay:0.1s">
-            <div class="product-line">vivo S60 系列</div>
-            <h3>人像专家 · 潮流设计</h3>
-            <p class="desc">全新 S60 与 S60 元气版，5月29日正式发布，以旧换新补贴拉满。</p>
-            <ul class="detail-benefits">
-                <li>1元预订享价值 ¥1,688 新品福袋</li>
-                <li>以旧换新至高补贴 ¥1,200</li>
-                <li>12期免息分期，轻松入手</li>
-                <li>潮流配色 + 轻薄设计</li>
-                <li>专业人像影像系统</li>
-            </ul>
-        </div>
-
-        <div class="detail-card animate-on-scroll" style="transition-delay:0.15s">
-            <div class="product-line">vivo X 系列</div>
-            <h3>影像旗舰 · 专业之选</h3>
-            <p class="desc">X300s 领衔，搭载顶级影像系统，适合摄影爱好者与专业创作者。</p>
-            <ul class="detail-benefits">
-                <li>国补价 ¥4,499 起</li>
-                <li>12期免息分期</li>
-                <li>以旧换新至高补贴 ¥1,200</li>
-                <li>学生 / 教师专享教育优惠</li>
-                <li>专业级影像系统，出片即大片</li>
-            </ul>
-        </div>
-    </div>
-</section>
-
-<!-- ========== Footer ========== -->
-<!-- ========== QR Code Overlay ========== -->
-<div class="qr-page" id="qrOverlay">
-    <div class="qr-wrap" id="qrWrap">
-        <div id="qrcode"></div>
-        <div style="font-size:13px;color:#333;font-weight:600">扫码查看全部权益</div>
-    </div>
-    <div class="hint">点击任意位置关闭</div>
-</div>
-
-<button class="qr-toggle-btn" id="qrBtn" title="显示二维码">📱</button>
 
 <footer>
     <p>© 2026 vivo 夏日超值季 · 本页面为活动宣传展示页</p>
     <p>活动详情以 <a href="https://www.vivo.com.cn" target="_blank">vivo 官网</a> 及 <a href="https://www.iqoo.com" target="_blank">iQOO 官网</a> 公布为准</p>
-    <p>* 各机型优惠方案及补贴金额可能随活动调整，请以购买时页面显示为准</p>
+    <p>* 各机型价格及优惠方案可能随活动调整，请以购买时页面显示为准</p>
 </footer>
 
-<!-- ===== JS ===== -->
+<!-- QR -->
+<div class="qr-overlay" id="qrOverlay">
+    <div class="qr-wrap"><div id="qrcode"></div><div style="font-size:12px;color:#333;font-weight:600">扫码查看全系产品权益</div></div>
+    <div class="hint">点击任意位置关闭</div>
+</div>
+<button class="qr-btn" id="qrBtn" title="二维码">📱</button>
+
 <script>
 (function() {
-    // Countdown to August 31, 2026
-    const end = new Date('2026-08-31T23:59:59+08:00').getTime();
-    function tick() {
-        const now = Date.now();
-        const diff = Math.max(0, end - now);
-        const d = Math.floor(diff / 86400000);
-        const h = Math.floor((diff % 86400000) / 3600000);
-        const m = Math.floor((diff % 3600000) / 60000);
-        const s = Math.floor((diff % 60000) / 1000);
-        document.getElementById('cd-days').textContent = String(d).padStart(2,'0');
-        document.getElementById('cd-hours').textContent = String(h).padStart(2,'0');
-        document.getElementById('cd-mins').textContent = String(m).padStart(2,'0');
-        document.getElementById('cd-secs').textContent = String(s).padStart(2,'0');
-    }
-    tick();
-    setInterval(tick, 1000);
+    const els = document.querySelectorAll('.anim');
+    const ob = new IntersectionObserver(entries => {
+        entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('show'); });
+    }, { threshold: 0.1 });
+    els.forEach(el => ob.observe(el));
 
-    // Intersection Observer for scroll animations
-    const els = document.querySelectorAll('.animate-on-scroll');
-    const observer = new IntersectionObserver(entries => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-            }
-        });
-    }, { threshold: 0.15 });
-    els.forEach(el => observer.observe(el));
-
-    // Smooth nav scroll
     document.querySelectorAll('.nav-links a').forEach(a => {
         a.addEventListener('click', e => {
             e.preventDefault();
-            const target = document.querySelector(a.getAttribute('href'));
-            if (target) target.scrollIntoView({ behavior: 'smooth' });
+            const t = document.querySelector(a.getAttribute('href'));
+            if(t) t.scrollIntoView({ behavior: 'smooth' });
         });
     });
 
-    // ===== QR Code Generator =====
     const qrOverlay = document.getElementById('qrOverlay');
     const qrBtn = document.getElementById('qrBtn');
     const pageUrl = window.location.href;
-
-    function generateQR() {
-        const container = document.getElementById('qrcode');
-        container.innerHTML = '';
-        new QRCode(container, {
-            text: pageUrl,
-            width: 220,
-            height: 220,
-            colorDark: '#0b0e1a',
-            colorLight: '#ffffff',
-            correctLevel: QRCode.CorrectLevel.H
-        });
-    }
-
     qrBtn.addEventListener('click', function(e) {
         e.stopPropagation();
-        if (qrOverlay.classList.contains('active')) {
-            qrOverlay.classList.remove('active');
-        } else {
-            generateQR();
-            qrOverlay.classList.add('active');
-        }
+        if(qrOverlay.classList.contains('active')) { qrOverlay.classList.remove('active'); return; }
+        const c = document.getElementById('qrcode'); c.innerHTML = '';
+        new QRCode(c, { text: pageUrl, width: 200, height: 200, colorDark: '#0b0e1a', colorLight: '#ffffff', correctLevel: QRCode.CorrectLevel.H });
+        qrOverlay.classList.add('active');
     });
-
-    qrOverlay.addEventListener('click', function() {
-        qrOverlay.classList.remove('active');
-    });
-    document.getElementById('qrWrap').addEventListener('click', function(e) {
-        e.stopPropagation();
-    });
+    qrOverlay.addEventListener('click', () => qrOverlay.classList.remove('active'));
+    document.querySelector('.qr-overlay .qr-wrap').addEventListener('click', e => e.stopPropagation());
 })();
 </script>
 </body>
