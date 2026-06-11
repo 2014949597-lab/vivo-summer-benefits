@@ -153,6 +153,70 @@ footer a{color:rgba(66,133,244,0.5)}
 .cat-pad{background:rgba(100,200,255,0.15);color:#6ac8ff}
 .cat-watch{background:rgba(50,200,200,0.15);color:#4ae0e0}
 .cat-audio{background:rgba(200,100,255,0.15);color:#c07eff}
+
+/* ===== Value-added Services ===== */
+.vas-section{max-width:1200px;margin:0 auto}
+.vas-tabs{display:flex;gap:8px;justify-content:center;margin-bottom:36px;flex-wrap:wrap}
+.vas-tab{padding:10px 22px;border-radius:60px;font-size:14px;font-weight:600;cursor:pointer;transition:all 0.3s;border:1px solid rgba(255,255,255,0.1);background:rgba(255,255,255,0.04);color:rgba(255,255,255,0.5)}
+.vas-tab:hover{border-color:rgba(66,133,244,0.3);color:#fff}
+.vas-tab.active{background:linear-gradient(135deg,rgba(66,133,244,0.2),rgba(106,61,232,0.2));border-color:#4285f4;color:#fff}
+.vas-panel{display:none;animation:fadeInUp 0.5s ease}
+.vas-panel.active{display:block}
+
+/* Sub-benefit card */
+.sb-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:18px;margin-bottom:24px}
+.sb-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:24px;transition:all 0.3s}
+.sb-card:hover{border-color:rgba(66,133,244,0.2);background:rgba(255,255,255,0.05);transform:translateY(-2px)}
+.sb-card .sb-icon{font-size:28px;display:inline-block;margin-bottom:10px}
+.sb-card .sb-label{display:inline-block;font-size:11px;font-weight:600;padding:2px 10px;border-radius:4px;letter-spacing:1px;margin-bottom:8px}
+.sb-label-blue{background:rgba(66,133,244,0.2);color:#6ba3ff}
+.sb-label-orange{background:rgba(255,107,53,0.2);color:#ff8a5c}
+.sb-label-purple{background:rgba(138,43,226,0.2);color:#b07eff}
+.sb-label-green{background:rgba(0,200,150,0.2);color:#4ade80}
+.sb-label-gold{background:rgba(255,180,0,0.2);color:#ffd700}
+.sb-card h4{font-size:16px;margin-bottom:6px}
+.sb-card .sb-desc{font-size:13px;color:rgba(255,255,255,0.55);line-height:1.7}
+.sb-card .sb-highlight{color:#ff6b35;font-weight:700}
+.sb-card .sb-note{font-size:12px;color:rgba(255,255,255,0.35);margin-top:8px;padding-top:8px;border-top:1px solid rgba(255,255,255,0.05)}
+.sb-card .sb-tag{display:inline-block;padding:3px 10px;border-radius:100px;font-size:11px;font-weight:600;margin-right:4px;margin-bottom:4px}
+.sb-tag-hot{background:rgba(255,53,53,0.2);color:#ff5c5c;border:1px solid rgba(255,53,53,0.3)}
+.sb-tag-new{background:rgba(66,133,244,0.2);color:#6ba3ff;border:1px solid rgba(66,133,244,0.3)}
+.sb-tag-ltd{background:rgba(255,180,0,0.2);color:#ffd700;border:1px solid rgba(255,180,0,0.3)}
+
+/* Price pill */
+.sb-price{display:inline-flex;align-items:center;gap:6px;margin:6px 0 0;font-size:14px;color:rgba(255,255,255,0.5)}
+.sb-price strong{color:#ff6b35;font-size:17px}
+.sb-price .orig{color:rgba(255,255,255,0.25);text-decoration:line-through;font-size:13px}
+
+/* Timeline */
+.vas-timeline{position:relative;padding-left:28px;margin-top:16px}
+.vas-timeline::before{content:'';position:absolute;left:8px;top:4px;bottom:4px;width:2px;background:linear-gradient(180deg,#4285f4,#6a3de8)}
+.vas-tl-item{position:relative;padding:0 0 20px 16px}
+.vas-tl-item::before{content:'';position:absolute;left:-22px;top:6px;width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,#4285f4,#6a3de8);border:2px solid #0b0e1a}
+.vas-tl-item:last-child::before{background:#4ade80}
+.vas-tl-item .tl-label{font-size:13px;font-weight:600;margin-bottom:2px}
+.vas-tl-item .tl-desc{font-size:12px;color:rgba(255,255,255,0.45);line-height:1.6}
+
+/* Warning box */
+.vas-warn{background:rgba(255,53,53,0.08);border:1px solid rgba(255,53,53,0.15);border-radius:12px;padding:14px 18px;font-size:13px;color:rgba(255,255,255,0.6);margin:12px 0;display:flex;align-items:center;gap:10px}
+.vas-warn .warn-icon{font-size:18px;flex-shrink:0}
+.vas-warn strong{color:#ff5c5c}
+
+/* Flex row */
+.vas-flex{display:flex;flex-wrap:wrap;gap:12px;margin-top:10px}
+.vas-flex-item{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:10px;padding:10px 16px;font-size:13px;color:rgba(255,255,255,0.6);display:flex;align-items:center;gap:8px;transition:all 0.2s}
+.vas-flex-item:hover{background:rgba(66,133,244,0.08);border-color:rgba(66,133,244,0.2)}
+.vas-flex-item strong{color:#fff;font-weight:600}
+
+/* Compare card */
+.cmp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.cmp-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:20px;text-align:center;transition:all 0.3s}
+.cmp-card:hover{transform:translateY(-3px);border-color:rgba(66,133,244,0.2)}
+.cmp-card .cmp-label{font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:4px}
+.cmp-card .cmp-value{font-size:18px;font-weight:700;color:#4285f4}
+.cmp-card .cmp-value.s60{color:#ff6b35}
+.cmp-card .cmp-value.iqoo{color:#b07eff}
+.cmp-card .cmp-desc{font-size:12px;color:rgba(255,255,255,0.4);margin-top:4px}
 </style>
 </head>
 <body>
@@ -169,7 +233,8 @@ footer a{color:rgba(66,133,244,0.5)}
         <a href="#pad">平板</a>
         <a href="#watch">手表</a>
         <a href="#audio">耳机</a>
-        <a href="#compare">权益对比</a>
+        <a href="#vas">增值权益</a>
+        <a href="#compare">对比</a>
     </div>
 </nav>
 
@@ -585,6 +650,255 @@ footer a{color:rgba(66,133,244,0.5)}
     <div style="text-align:center;margin-top:20px;font-size:13px;color:rgba(255,255,255,0.35)">🎧 购机搭配耳机立减¥30-50 · 学生认证充电宝仅¥89</div>
 </section>
 
+<!-- ===== VALUE-ADDED SERVICES ===== -->
+<section class="bg2" id="vas">
+    <h2 class="section-title anim">🎯 增值权益 · 5.29-6.14</h2>
+    <p class="section-sub anim">服务宝 · 以旧换新 · 分期免息 · 教育优惠 四重好礼</p>
+
+    <div class="vas-section anim">
+        <!-- Tabs -->
+        <div class="vas-tabs">
+            <div class="vas-tab active" data-tab="tab-serve">🛡️ 服务保障</div>
+            <div class="vas-tab" data-tab="tab-trade">🔄 以旧换新</div>
+            <div class="vas-tab" data-tab="tab-install">💳 分期免息</div>
+            <div class="vas-tab" data-tab="tab-edu">🎓 教育优惠</div>
+        </div>
+
+        <!-- ===== 服务保障 ===== -->
+        <div class="vas-panel active" id="tab-serve">
+            <div class="sb-grid">
+                <!-- 盲约延保+进水 -->
+                <div class="sb-card anim">
+                    <span class="sb-icon">🔒</span>
+                    <span class="sb-label sb-label-blue">盲约专享</span>
+                    <h4>一年延保 + 一年进水宝</h4>
+                    <div class="sb-desc">
+                        vivo 全系机型盲约即享<br>
+                        <span class="sb-highlight">一年延长保修</span> + <span class="sb-highlight">一年进水宝</span><br>
+                        <span style="color:rgba(255,255,255,0.4);font-size:12px">vivo+ 核销自动发放 · 需先激活电子保卡</span>
+                    </div>
+                </div>
+
+                <!-- 首销赠品二选一 -->
+                <div class="sb-card anim">
+                    <span class="sb-icon">🎁</span>
+                    <span class="sb-label sb-label-orange">首销专享</span>
+                    <h4>赠品二选一</h4>
+                    <div class="sb-desc">
+                        <span class="sb-tag sb-tag-new">A</span> <span class="sb-highlight">TWS 耳机</span><br>
+                        <span style="font-size:12px;color:rgba(255,255,255,0.3)">或</span><br>
+                        <span class="sb-tag sb-tag-new">B</span> <span class="sb-highlight">一年碎屏宝</span> + <span class="sb-highlight">三年电池宝</span>
+                    </div>
+                    <div class="sb-note">vivo+ 核销自动发放 · 需先激活电子保卡</div>
+                    <!-- Upgrade option -->
+                    <div style="background:rgba(255,107,53,0.08);border:1px solid rgba(255,107,53,0.15);border-radius:10px;padding:12px;margin-top:10px">
+                        <div style="font-size:13px;font-weight:600;color:#ff8a5c;margin-bottom:4px">⬆️ 升级方案</div>
+                        <div style="font-size:12px;color:rgba(255,255,255,0.55);line-height:1.6">
+                            选择B方案可 <span class="sb-highlight">+100元</span> 升级为 <span class="sb-highlight">两年碎屏宝</span><br>
+                            <span style="color:rgba(255,255,255,0.3)">流程：先生效一年碎屏宝 → VK下单两年碎屏宝<br>
+                            💡 可组合保护膜销售，提升门店毛利</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- vivo care+ -->
+                <div class="sb-card anim">
+                    <span class="sb-icon">💎</span>
+                    <span class="sb-label sb-label-purple">vivo care+</span>
+                    <h4>买一年送一年</h4>
+                    <div class="sb-desc">
+                        限时特惠 <span class="sb-highlight">¥299</span> <span style="font-size:12px;color:rgba(255,255,255,0.3)">（原价¥598）</span><br>
+                        两年全面保障，购机无忧
+                    </div>
+                    <div class="sb-note">体专 VK 办单 · 渠道可引导用户电子保卡购买</div>
+                </div>
+            </div>
+
+            <!-- Service Price List -->
+            <div style="background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:20px;margin-top:8px">
+                <div style="font-size:14px;font-weight:600;margin-bottom:12px">📋 S60 / S60 元气版 服务价格</div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px">
+                    <div style="background:rgba(66,133,244,0.08);border-radius:10px;padding:12px 16px;text-align:center">
+                        <div style="font-size:11px;color:rgba(255,255,255,0.4)">一年碎屏宝</div>
+                        <div style="font-size:20px;font-weight:700;color:#6ba3ff">¥179</div>
+                        <div style="font-size:11px;color:rgba(255,255,255,0.3)">新</div>
+                    </div>
+                    <div style="background:rgba(66,133,244,0.08);border-radius:10px;padding:12px 16px;text-align:center">
+                        <div style="font-size:11px;color:rgba(255,255,255,0.4)">两年碎屏宝</div>
+                        <div style="font-size:20px;font-weight:700;color:#6ba3ff">¥279</div>
+                        <div style="font-size:11px;color:rgba(255,255,255,0.3)">新</div>
+                    </div>
+                    <div style="background:linear-gradient(135deg,rgba(138,43,226,0.12),rgba(66,133,244,0.12));border:1px solid rgba(138,43,226,0.2);border-radius:10px;padding:12px 16px;text-align:center">
+                        <div style="font-size:11px;color:rgba(255,255,255,0.4)">vivo care+</div>
+                        <div style="font-size:20px;font-weight:700;color:#b07eff">¥299</div>
+                        <div style="font-size:11px;color:#ffd700;font-weight:600">买一年送一年 🔥</div>
+                    </div>
+                </div>
+                <div style="font-size:11px;color:rgba(255,255,255,0.25);margin-top:10px;text-align:center">零售价与 SKU 编码一致</div>
+            </div>
+        </div>
+
+        <!-- ===== 以旧换新 ===== -->
+        <div class="vas-panel" id="tab-trade">
+            <div class="vas-warn"><span class="warn-icon">📅</span><span>活动时间：<strong>5.29 - 6.14</strong> · 适用机型：<strong>S60 系列</strong></span></div>
+
+            <div class="sb-grid">
+                <!-- 基础补贴 -->
+                <div class="sb-card anim">
+                    <span class="sb-icon">💰</span>
+                    <span class="sb-label sb-label-blue">基础补贴</span>
+                    <h4>满额立补</h4>
+                    <div class="sb-desc">
+                        <div style="display:flex;flex-direction:column;gap:8px;margin-top:6px">
+                            <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,0.03);padding:8px 12px;border-radius:8px">
+                                <span style="font-size:13px">旧机回收价 ≥ <span class="sb-highlight">¥300</span></span>
+                                <span style="font-size:16px;font-weight:700;color:#4ade80">补¥100</span>
+                            </div>
+                            <div style="display:flex;justify-content:space-between;align-items:center;background:rgba(255,255,255,0.03);padding:8px 12px;border-radius:8px">
+                                <span style="font-size:13px">旧机回收价 ≥ <span class="sb-highlight">¥1,000</span></span>
+                                <span style="font-size:16px;font-weight:700;color:#4ade80">补¥150</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 老用户加补 -->
+                <div class="sb-card anim">
+                    <span class="sb-icon">👤</span>
+                    <span class="sb-label sb-label-gold">老用户加补</span>
+                    <h4>vivo & iQOO 老用户专享</h4>
+                    <div class="sb-desc">
+                        以旧换新购 S60 系列<br>
+                        旧机回收价满 <span class="sb-highlight">¥150</span><br>
+                        可领 <span class="sb-highlight" style="font-size:18px">¥100</span> 加补券
+                    </div>
+                    <div class="sb-note">可与基础补贴叠加</div>
+                </div>
+
+                <!-- 教育认证加补 -->
+                <div class="sb-card anim">
+                    <span class="sb-icon">🎓</span>
+                    <span class="sb-label sb-label-orange">教育认证加补</span>
+                    <h4>学生 & 教职工专享</h4>
+                    <div class="sb-desc">
+                        完成教育认证用户，以旧换新购 S60 系列<br>
+                        旧机回收价满 <span class="sb-highlight">¥150</span><br>
+                        可领 <span class="sb-highlight" style="font-size:18px">¥100</span> 加补券
+                    </div>
+                    <div class="sb-note">可与基础补贴叠加 · 需先完成教育认证</div>
+                </div>
+
+                <!-- 高等级加补 -->
+                <div class="sb-card anim">
+                    <span class="sb-icon">⭐</span>
+                    <span class="sb-label sb-label-purple">高等级会员</span>
+                    <h4>限量高等级加补</h4>
+                    <div class="sb-desc">
+                        高等级会员用户以旧换新购 S60 系列<br>
+                        可限量领取 <span class="sb-highlight" style="font-size:18px">¥200</span> 加补券
+                    </div>
+                    <div class="sb-note">可与老用户加补叠加</div>
+                    <span class="sb-tag sb-tag-ltd">限量</span>
+                </div>
+
+                <!-- 至高1200抽奖 -->
+                <div class="sb-card anim">
+                    <span class="sb-icon">🎰</span>
+                    <span class="sb-label sb-label-green">限量抽奖</span>
+                    <h4>至高 ¥1,200 换新券</h4>
+                    <div class="sb-desc">
+                        旧机回收价满 <span class="sb-highlight">¥150</span> 购 S60 系列<br>
+                        可参与限量 <span class="sb-highlight" style="font-size:20px">¥1,200</span> 换新券抽奖
+                    </div>
+                    <div class="vas-warn" style="margin:10px 0 0;font-size:12px">
+                        <span class="warn-icon">📸</span>
+                        <span>中奖用户可使用中奖海报宣传<br><strong>需征求用户同意</strong></span>
+                    </div>
+                    <span class="sb-tag sb-tag-ltd">限量</span>
+                </div>
+            </div>
+
+            <!-- Stacking example -->
+            <div style="background:linear-gradient(135deg,rgba(66,133,244,0.06),rgba(106,61,232,0.06));border:1px solid rgba(66,133,244,0.12);border-radius:14px;padding:20px;margin-top:8px">
+                <div style="font-size:14px;font-weight:600;margin-bottom:10px">📌 补贴叠加示例</div>
+                <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px">
+                    <div style="background:rgba(255,255,255,0.03);border-radius:10px;padding:12px;text-align:center">
+                        <div style="font-size:11px;color:rgba(255,255,255,0.4)">基础补贴</div>
+                        <div style="font-size:17px;font-weight:700;color:#4ade80">¥150</div>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.03);border-radius:10px;padding:12px;text-align:center">
+                        <div style="font-size:11px;color:rgba(255,255,255,0.4)">+ 老用户加补</div>
+                        <div style="font-size:17px;font-weight:700;color:#ffd700">¥100</div>
+                    </div>
+                    <div style="background:rgba(255,255,255,0.03);border-radius:10px;padding:12px;text-align:center">
+                        <div style="font-size:11px;color:rgba(255,255,255,0.4)">+ 高等级加补</div>
+                        <div style="font-size:17px;font-weight:700;color:#b07eff">¥200</div>
+                    </div>
+                    <div style="background:linear-gradient(135deg,rgba(255,107,53,0.1),rgba(255,53,53,0.1));border:1px solid rgba(255,107,53,0.2);border-radius:10px;padding:12px;text-align:center">
+                        <div style="font-size:11px;color:rgba(255,255,255,0.4)">🎯 最高叠加</div>
+                        <div style="font-size:20px;font-weight:700;color:#ff6b35">¥450</div>
+                        <div style="font-size:11px;color:rgba(255,255,255,0.3)">+ 抽奖有机会赢 ¥1,200</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== 分期免息 ===== -->
+        <div class="vas-panel" id="tab-install">
+            <div class="sb-grid" style="grid-template-columns:1fr">
+                <div class="sb-card anim" style="text-align:center;padding:36px">
+                    <span class="sb-icon" style="font-size:48px">💳</span>
+                    <h4 style="font-size:22px;margin-bottom:4px">分期免息</h4>
+                    <div style="font-size:14px;color:rgba(255,255,255,0.5);margin-bottom:20px">活动时间：5.29 - 6.14</div>
+                    <div style="display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-bottom:16px">
+                        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:20px 32px">
+                            <div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:4px">至高期数</div>
+                            <div style="font-size:32px;font-weight:700;color:#4285f4">24期</div>
+                            <div style="font-size:13px;color:rgba(255,255,255,0.5)">0利息 · 0手续费</div>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:20px 32px">
+                            <div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:4px">适用系列</div>
+                            <div style="font-size:24px;font-weight:700;color:#ff6b35">iQOO</div>
+                            <div style="font-size:13px;color:rgba(255,255,255,0.5)">数字系列</div>
+                        </div>
+                        <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:14px;padding:20px 32px">
+                            <div style="font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:4px">其余系列</div>
+                            <div style="font-size:24px;font-weight:700;color:#4ade80">12期</div>
+                            <div style="font-size:13px;color:rgba(255,255,255,0.5)">X / S60 / 平板等</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== 教育优惠 ===== -->
+        <div class="vas-panel" id="tab-edu">
+            <div class="sb-grid" style="grid-template-columns:1fr">
+                <div class="sb-card anim" style="text-align:center;padding:36px">
+                    <span class="sb-icon" style="font-size:48px">🎓</span>
+                    <h4 style="font-size:22px;margin-bottom:4px">教育优惠 · 二选一</h4>
+                    <div style="font-size:14px;color:rgba(255,255,255,0.5);margin-bottom:24px">学生 & 教职工专属</div>
+                    <div style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap;max-width:600px;margin:0 auto">
+                        <div style="flex:1;min-width:200px;background:rgba(255,255,255,0.04);border:1px solid rgba(66,133,244,0.2);border-radius:14px;padding:24px 20px;text-align:center">
+                            <div style="font-size:40px;margin-bottom:10px">🔋</div>
+                            <div style="font-size:18px;font-weight:600">充电宝</div>
+                            <div style="font-size:13px;color:rgba(255,255,255,0.4)">vivo+ 完成教育认证选取</div>
+                        </div>
+                        <div style="flex:1;min-width:200px;background:rgba(255,255,255,0.04);border:1px solid rgba(138,43,226,0.2);border-radius:14px;padding:24px 20px;text-align:center">
+                            <div style="font-size:40px;margin-bottom:10px">☁️</div>
+                            <div style="font-size:18px;font-weight:600">200G云盘两年卡</div>
+                            <div style="font-size:13px;color:rgba(255,255,255,0.4)">领取兑换码后云服务激活使用</div>
+                        </div>
+                    </div>
+                    <div style="font-size:12px;color:rgba(255,255,255,0.25);margin-top:16px;line-height:1.8">
+                        📌 vivo+ 完成教育优惠认证选取 · 云盘领取兑换码后云服务激活使用
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- ===== FULL COMPARE TABLE ===== -->
 <section class="bg2" id="compare">
     <h2 class="section-title anim">📊 全系权益对比</h2>
@@ -678,6 +992,16 @@ footer a{color:rgba(66,133,244,0.5)}
             e.preventDefault();
             const t = document.querySelector(a.getAttribute('href'));
             if(t) t.scrollIntoView({ behavior: 'smooth' });
+        });
+    });
+
+    // ===== Value-added services tabs =====
+    document.querySelectorAll('.vas-tab').forEach(tab => {
+        tab.addEventListener('click', function() {
+            document.querySelectorAll('.vas-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.vas-panel').forEach(p => p.classList.remove('active'));
+            this.classList.add('active');
+            document.getElementById(this.dataset.tab).classList.add('active');
         });
     });
 
